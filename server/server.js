@@ -18,25 +18,44 @@ if (Meteor.isServer) {
     });
 
     ConsoleMe.enabled = true;
-
-
     
-    const fileExtOptions = [
-      { type: 'jpg', collection: ScrapJPG },
-      { type: 'gif', collection: ScrapGIF },
-      { type: 'avi', collection: ScrapAVI },
-      { type: 'txt', collection: ScrapTXT },
-    ];
+    // const fileExtOptions = [
+    //   { type: 'jpg', collection: ScrapJPG },
+    //   { type: 'gif', collection: ScrapGIF },
+    //   { type: 'avi', collection: ScrapAVI },
+    //   { type: 'txt', collection: ScrapTXT },
+    // ];
 
-    if (ScrapJPG === undefined
-      || ScrapGIF === undefined
-      || ScrapAVI === undefined
-      || ScrapAVI === undefined) {
-      throw new Meteor.Error('collection load order promblem');
-    }
+    // if (ScrapJPG === undefined
+    //   || ScrapGIF === undefined
+    //   || ScrapAVI === undefined
+    //   || ScrapAVI === undefined) {
+    //   throw new Meteor.Error('collection load order promblem');
+    // }
 
-    const clienScraper = new CS('clien', 1, fileExtOptions);
-    clienScraper.scrapStart();
+    // const clienScraper = new CS('clien', 1, fileExtOptions);
+    // clienScraper.scrapStart();
+
+
+
+
+
+    const clienScraperNEW = new CSNEW('clien');
+    clienScraperNEW.scrapStart('jpg', 'default', 1, 1, (result) => {
+      ScrapJPG.insert(result);
+    });
+    clienScraperNEW.scrapStart('gif', 'default', 1, 1, (result) => {
+      ScrapGIF.insert(result);
+    });
+    clienScraperNEW.scrapStart('avi', 'default', 1, 1, (result) => {
+      ScrapAVI.insert(result);
+    });
+    // const regexpSKT = /skt|SKT|sktelecom|스크트|10sk|슼|sk텔레콤|sk텔레콤/ig;
+    // clienScraperNEW.scrapStart('skt', regexpSKT, 1, 50, (result) => {
+    //   ScrapJPG.insert(result);
+    // });
+
+
     
 
 

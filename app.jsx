@@ -5,6 +5,20 @@ ScrapAVI = new Mongo.Collection('scrapAVI');
 ScrapTXT = new Mongo.Collection('scrapTXT');
 
 
+
+var postSample = {
+  createdAt: 123543765, // Unix timestamp
+  communityName: 'clien',                 // Community name of this post
+  batchCount: 1,                            // Batch number of the day which is reseted everyday
+  type: 'jpg',                            // Type of this post
+  title: 'This article is test01.jpg',    // Title of this post
+  url: 'http://www.clien.net/?id=123456', // URL of this post
+  size: '202',                            // Size of media this post contians as kilo bytes
+  postId: 'clien.123456',                 // Unique id of this post : 'communityName+postId'
+  point: 1,                               // Some calculatd point
+};
+
+
 injectTapEventPlugin();
 
 var {
@@ -40,41 +54,69 @@ App = React.createClass({
       collectionGIFLoading: ! collectionGIF.ready(),
       collectionAVILoading: ! collectionAVI.ready(),
       collectionTXTLoading: ! collectionTXT.ready(),
-      listsJPG: ScrapJPG.find({}, { sort: { date: -1 } }).fetch(),
-      listsGIF: ScrapGIF.find({}, { sort: { date: -1 } }).fetch(),
-      listsAVI: ScrapAVI.find({}, { sort: { date: -1 } }).fetch(),
-      listsTXT: ScrapTXT.find({}, { sort: { date: -1 } }).fetch(),
+      listsJPG: ScrapJPG.find({}, { sort: { createdAt: -1 } }).fetch(),
+      listsGIF: ScrapGIF.find({}, { sort: { createdAt: -1 } }).fetch(),
+      listsAVI: ScrapAVI.find({}, { sort: { createdAt: -1 } }).fetch(),
+      listsTXT: ScrapTXT.find({}, { sort: { createdAt: -1 } }).fetch(),
     };
   },
-  renderTicks(type) {
+  renderBatches(type) {
     switch (type) {
       case 'jpg':
-        return this.data.listsJPG.map((lists) => {
-          return [this.renderLists(lists, type), <Divider />];
-        });
+        if (this.data.collectionJPGLoading) {
+          return <CircularProgress />;
+        } else {
+          return (
+            <List>
+              {this.data.listsJPG.map((item) => {
+                return <Item key={item._id} title={item.batchCount + ' ' + item.title} url={item.url} />;
+              })}
+              <Divider />
+            </List>
+            );
+        }
       case 'gif':
-        return this.data.listsGIF.map((lists) => {
-          return [this.renderLists(lists, type), <Divider />];
-        });
+        if (this.data.collectionGIFLoading) {
+          return <CircularProgress />;
+        } else {
+          return (
+            <List>
+              {this.data.listsGIF.map((item) => {
+                return <Item key={item._id} title={item.batchCount + ' ' + item.title} url={item.url} />;
+              })}
+              <Divider />
+            </List>
+            );
+        }
       case 'avi':
-        return this.data.listsAVI.map((lists) => {
-          return [this.renderLists(lists, type), <Divider />];
-        });
+        if (this.data.collectionAVILoading) {
+          return <CircularProgress />;
+        } else {
+          return (
+            <List>
+              {this.data.listsAVI.map((item) => {
+                return <Item key={item._id} title={item.batchCount + ' ' + item.title} url={item.url} />;
+              })}
+              <Divider />
+            </List>
+            );
+        }
       case 'txt':
-        return this.data.listsTXT.map((lists) => {
-          return [this.renderLists(lists, type), <Divider />];
-        });
+        if (this.data.collectionTXTLoading) {
+          return <CircularProgress />;
+        } else {
+          return (
+            <List>
+              {this.data.listsTXT.map((item) => {
+                return <Item key={item._id} title={item.batchCount + ' ' + item.title} url={item.url} />;
+              })}
+              <Divider />
+            </List>
+            );
+        }
       default:
         throw Meteor.Error('render Failed');
     }
-  },
-  renderLists(lists) {
-    return lists.list.map((item) => {
-      return <Item
-            key={item._id}
-            title={item.title}
-            url={item.url} />;
-    });
   },
   remove() {
     Meteor.call('remove');
@@ -87,30 +129,22 @@ App = React.createClass({
         <Tabs>
           <Tab label="JPG">
             <div>
-              {this.data.collectionJPGLoading ?
-                <CircularProgress /> : <List>{this.renderTicks('jpg')}</List>
-              }
+              {this.renderBatches('jpg')}
             </div>
           </Tab>
           <Tab label="GIF" >
             <div>
-              {this.data.collectionGIFLoading ?
-                <CircularProgress /> : <List>{this.renderTicks('gif')}</List>
-              }
+              {this.renderBatches('gif')}
             </div>
           </Tab>
           <Tab label="AVI">
             <div>
-              {this.data.collectionAVILoading ?
-                <CircularProgress /> : <List>{this.renderTicks('avi')}</List>
-              }
+              {this.renderBatches('avi')}
             </div>
           </Tab>
           <Tab label="TXT">
             <div>
-              {this.data.collectionTXTLoading ?
-                <CircularProgress /> : <List>{this.renderTicks('txt')}</List>
-              }
+              {this.renderBatches('txt')}
             </div>
           </Tab>
         </Tabs>
