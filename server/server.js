@@ -1,23 +1,18 @@
-
 if (Meteor.isServer) {
   Meteor.startup(() => {
     // code to run on server at startup
     cheerio = Meteor.npmRequire('cheerio');
+    
+    // Publishing
+    Meteor.publish('scrapJPG', loaded => ScrapJPG.find({}, { sort: { createdAt: -1 }, limit: loaded }));
+    Meteor.publish('scrapGIF', loaded => ScrapGIF.find({}, { sort: { createdAt: -1 }, limit: loaded }));
+    Meteor.publish('scrapAVI', loaded => ScrapAVI.find({}, { sort: { createdAt: -1 }, limit: loaded }));
+    Meteor.publish('scrapTXT', loaded => ScrapTXT.find({}, { sort: { createdAt: -1 }, limit: loaded }));
 
-    Meteor.publish('scrapJPG', () => {
-      return ScrapJPG.find();
-    });
-    Meteor.publish('scrapGIF', () => {
-      return ScrapGIF.find();
-    });
-    Meteor.publish('scrapAVI', () => {
-      return ScrapAVI.find();
-    });
-    Meteor.publish('scrapTXT', () => {
-      return ScrapTXT.find();
-    });
-
+    // Develop
     ConsoleMe.enabled = true;
+
+
     
     // const fileExtOptions = [
     //   { type: 'jpg', collection: ScrapJPG },
@@ -37,19 +32,19 @@ if (Meteor.isServer) {
     // clienScraper.scrapStart();
 
 
-
-
-
-    const clienScraperNEW = new CSNEW('clien');
-    clienScraperNEW.scrapStart('jpg', 'default', 1, 1, (result) => {
+    // Clien
+    const clienScraper = new CS('clien');
+    clienScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
       ScrapJPG.insert(result);
     });
-    clienScraperNEW.scrapStart('gif', 'default', 1, 1, (result) => {
+    clienScraper.scrapStart('gif', 'default', 3, 10, (result) => {
       ScrapGIF.insert(result);
     });
-    clienScraperNEW.scrapStart('avi', 'default', 1, 1, (result) => {
+    clienScraper.scrapStart('avi', 'default', 3, 10, (result) => {
       ScrapAVI.insert(result);
     });
+
+
     // const regexpSKT = /skt|SKT|sktelecom|스크트|10sk|슼|sk텔레콤|sk텔레콤/ig;
     // clienScraperNEW.scrapStart('skt', regexpSKT, 1, 50, (result) => {
     //   ScrapJPG.insert(result);
