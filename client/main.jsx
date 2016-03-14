@@ -10,64 +10,70 @@
 //   point: 1,                               // Some calculatd point
 // };
 
+
+
 // Handle touch event
 injectTapEventPlugin();
 
+// 
+
+
 // Material ui init
-var {
-    AppCanvas,
+const {
     AppBar,
     Styles,
     FlatButton,
     CircularProgress,
     RefreshIndicator,
+    Tabs,
+    Tab,
     } = MUI;
-var { ThemeManager, LightRawTheme } = Styles;
+// const { ThemeManager, LightRawTheme } = Styles;
 
 App = React.createClass({
 
-  mixins: [ReactMeteorData],
-
   getInitialState() {
-    // Item show count
     return {
-      loaded: 20,
+      // Selected tab
+      currentTabIndex: 0,
     };
-  },
-  getMeteorData() {
-    const subHandles = [
-      Meteor.subscribe('scrapJPG', this.state.loaded),
-      Meteor.subscribe('scrapGIF', this.state.loaded),
-      Meteor.subscribe('scrapAVI', this.state.loaded),
-      // Meteor.subscribe('scrapTXT', 10),
-    ];
-
-    const subsReady = _.all(subHandles, handle => handle.ready());
-
-    return {
-      subsReady,
-      listsJPG: ScrapJPG.find({}, { sort: { createdAt: -1 } }).fetch(),
-      listsGIF: ScrapGIF.find({}, { sort: { createdAt: -1 } }).fetch(),
-      listsAVI: ScrapAVI.find({}, { sort: { createdAt: -1 } }).fetch(),
-      // listsTXT: ScrapTXT.find({}, { sort: { createdAt: -1 } }).fetch(),
-    };
-
-    // style={{
-    //         display: 'inline-block',
-    //         position: 'relative' }}
   },
   remove() {
     Meteor.call('remove');
   },
+  tabHandler(tabIndex) {
+    this.setState({
+      currentTabIndex: tabIndex,
+    });
+    // Reset counter
+    // this.loadCounterReset(tabIndex);
+  },
+  // <div sytle={{ display: 'flex', justifyContent: 'center' }}>
+  //         <RefreshIndicator left={70} top={0} status="loading"
+  //       style={{}}/>
+  // </div>
+// <Contents tabHandler={this.tabHandler} state={this.state}/>
   // Main renderer
   render() {
     return (
       <div className="container">
         <AppBar
           title="50min"
-          iconElementRight={<FlatButton label="Reset" onClick={this.remove}/>} />
-        <Pages data={this.data} />
-        
+          style={{ flexWrap: 'wrap' }}
+          iconElementRight={<FlatButton label="Reset" onClick={this.remove}/>}
+        >
+          <div style={{ width: '100%' }}>
+            <Tabs
+              onChange={this.tabHandler}
+              value={this.state.currentTabIndex}
+            >
+              <Tab label="JPG" value={0} />
+              <Tab label="GIF" value={1} />
+              <Tab label="AVI" value={2} />
+            </Tabs>
+          </div>
+        </AppBar>
+        <Contents tabHandler={this.tabHandler} tabIndex={this.state.currentTabIndex}/>
       </div>
     );
   },

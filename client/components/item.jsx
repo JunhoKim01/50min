@@ -1,6 +1,11 @@
-var {
+const {
     ListItem
   } = MUI;
+
+const itemStyle = {
+  paddingTop: 8,
+  paddingBottm: 8,
+};
 
 
 Item = React.createClass({
@@ -16,9 +21,11 @@ Item = React.createClass({
     return (
       // TODO: click to link
       <ListItem
-        primaryText={this.props.title}
+        sytle={itemStyle}
+        primaryText={'[' + this.props.number + '] ' + this.props.title}
         secondaryText={moment(this.props.createdAt).fromNow()}
-        onClick={this.moveTo} />
+        onTouchTap={this.moveTo}
+        />
     );
   },
 });

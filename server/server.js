@@ -1,7 +1,8 @@
 if (Meteor.isServer) {
   Meteor.startup(() => {
     // code to run on server at startup
-    cheerio = Meteor.npmRequire('cheerio');
+    // cheerio = Meteor.npmRequire('cheerio');
+
     
     // Publishing
     Meteor.publish('scrapJPG', loaded => ScrapJPG.find({}, { sort: { createdAt: -1 }, limit: loaded }));
@@ -37,10 +38,10 @@ if (Meteor.isServer) {
     clienScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
       ScrapJPG.insert(result);
     });
-    clienScraper.scrapStart('gif', 'default', 3, 10, (result) => {
+    clienScraper.scrapStart('gif', 'default', 1, 10, (result) => {
       ScrapGIF.insert(result);
     });
-    clienScraper.scrapStart('avi', 'default', 3, 10, (result) => {
+    clienScraper.scrapStart('avi', 'default', 1, 10, (result) => {
       ScrapAVI.insert(result);
     });
 
