@@ -79,6 +79,7 @@ Contents = React.createClass({
             key={item._id}
             title={item.title}
             url={item.url}
+            source={item.communityName}
             createdAt={item.createdAt} />);
   },
   renderTabContents(type) {
