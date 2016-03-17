@@ -14,26 +14,16 @@ if (Meteor.isServer) {
     ConsoleMe.enabled = true;
 
 
-    
-    // const fileExtOptions = [
-    //   { type: 'jpg', collection: ScrapJPG },
-    //   { type: 'gif', collection: ScrapGIF },
-    //   { type: 'avi', collection: ScrapAVI },
-    //   { type: 'txt', collection: ScrapTXT },
-    // ];
+    // TODO: Scrap controller
 
-    // if (ScrapJPG === undefined
-    //   || ScrapGIF === undefined
-    //   || ScrapAVI === undefined
-    //   || ScrapAVI === undefined) {
-    //   throw new Meteor.Error('collection load order promblem');
-    // }
+    const DEVMODE = false;
 
-    // const clienScraper = new CS('clien', 1, fileExtOptions);
-    // clienScraper.scrapStart();
+    if (DEVMODE === true) {
+      // DEVO MODE
+      const ruliwebScraper = new CS('ruliweb');
+      Meteor.setTimeout(() => {console.log(ruliwebScraper.testParser());}, 10000);
+    }
 
-
-    // Clien
     const clienScraper = new CS('clien');
     clienScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
       ScrapJPG.insert(result);
@@ -45,17 +35,38 @@ if (Meteor.isServer) {
       ScrapAVI.insert(result);
     });
 
+    const ruliwebScraper = new CS('ruliweb');
+    ruliwebScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
+      ScrapJPG.insert(result);
+    });
+    ruliwebScraper.scrapStart('gif', 'default', 1, 10, (result) => {
+      ScrapGIF.insert(result);
+    });
+    ruliwebScraper.scrapStart('avi', 'default', 1, 10, (result) => {
+      ScrapAVI.insert(result);
+    });
 
+
+    // SCRAP MODE
+
+    // DDanzi
+    // const ddanziScraper = new CS('ddanzi');
+    // ddanziScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
+    //   ScrapJPG.insert(result);
+    // });
+    // ddanziScraper.scrapStart('gif', 'default', 1, 10, (result) => {
+    //   ScrapGIF.insert(result);
+    // });
+    // ddanziScraper.scrapStart('avi', 'default', 1, 10, (result) => {
+    //   ScrapAVI.insert(result);
+    // });
+    
+
+    // TODO: Custom scraper
     // const regexpSKT = /skt|SKT|sktelecom|스크트|10sk|슼|sk텔레콤|sk텔레콤/ig;
     // clienScraperNEW.scrapStart('skt', regexpSKT, 1, 50, (result) => {
     //   ScrapJPG.insert(result);
     // });
 
-
-    
-
-
   });
-
-
 }

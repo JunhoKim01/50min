@@ -23,7 +23,17 @@ Item = React.createClass({
     if (typeof source !== 'string') {
       throw new Meteor.Error('getFavicon source type is not string');
     }
-    return 'images/' + source + '.ico';
+    let src = `images/${source}.png`;
+    const favicon = new Image();
+    favicon.src = src;
+    
+    // Check if favicon with .png exits.
+    // And if not, return favicon src with .ico
+    if (favicon.height === 0) {
+      src = `images/${source}.ico`;
+    }
+
+    return src;
   },
   render() {
     return (
@@ -31,7 +41,7 @@ Item = React.createClass({
       <ListItem
         sytle={itemStyle}
         primaryText={this.props.title}
-        leftAvatar={<Avatar size={40} src={this.getFavicon(this.props.source)} />}
+        leftAvatar={<Avatar size={40} src={communities[this.props.source]} />}
         secondaryText={moment(this.props.createdAt).fromNow()}
         onTouchTap={this.moveTo}
         />

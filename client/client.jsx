@@ -14,6 +14,36 @@ if (Meteor.isClient) {
     }
     moment.locale(locale);
 
+    // TODO: favicon existence checker
+    // Load favicon`s source
+    // communities = {
+    //   clien: null,
+    //   ddanzi: null,
+    //   ruliweb: null,
+    // };
+    communities = {
+      clien: 'images/clien.ico',
+      ddanzi: 'images/ddanzi.ico',
+      ruliweb: 'images/ruliweb.png',
+    };
+
+    
+    // for (const name in communities) {
+    //   let src = `images/${name}.png`;
+    //   var favicon = new Image();
+
+
+    //   favicon.src = src;
+      
+    //   // Check if favicon with .png exits.
+    //   // And if not, return favicon src with .ico
+    //   if (favicon.height === 0) {
+    //     src = `images/${name}.ico`;
+    //   }
+
+    //   // Save favicon src
+    //   communities[name] = src;
+    // }
 
 
     // User Meteor.startup to render the component after the page is ready
