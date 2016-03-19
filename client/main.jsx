@@ -60,7 +60,7 @@ App = React.createClass({
         <AppBar
           title="50min"
           style={{ flexWrap: 'wrap' }}
-          iconElementRight={<FlatButton label="Reset" onClick={this.remove}/>}
+          // iconElementRight={<FlatButton label="Reset" onClick={this.remove}/>}
         >
           <div style={{ width: '100%' }}>
             <Tabs
