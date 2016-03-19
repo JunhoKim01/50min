@@ -14,6 +14,9 @@ if (Meteor.isClient) {
     }
     moment.locale(locale);
 
+    // Check if user agent is mobile
+    isMobile = mobileChecker();
+
     // TODO: favicon existence checker
     // Load favicon`s source
     // communities = {

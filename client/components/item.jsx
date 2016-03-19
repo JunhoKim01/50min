@@ -17,7 +17,20 @@ Item = React.createClass({
     source: React.PropTypes.string.isRequired,
   },
   moveTo() {
-    location = this.props.url;
+    let url = this.props.url;
+
+    // Ruliweb mobile
+    if (url.indexOf('ruliweb') > -1) {
+      if (isMobile) {
+        const position = url.indexOf('/ruliweb');
+        const mobeilUrl
+         = `${url.substr(0, position + 1)}mobile${url.substr(position)}`;
+        location = mobeilUrl;
+        return;
+      }
+    }
+
+    location = url;
   },
   getFavicon(source) {
     if (typeof source !== 'string') {
