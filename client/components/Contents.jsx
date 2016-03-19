@@ -23,6 +23,23 @@ const {
     RaisedButton,
     } = MUI;
 
+NoData = React.createClass({
+  render() {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '65vh',
+        }}
+      >
+        <p> 데이터 수집 중 입니다... </p>
+      </div>
+    );
+  }
+});
+
 Contents = React.createClass({
   mixins: [ReactMeteorData],
 
@@ -90,125 +107,91 @@ Contents = React.createClass({
     switch (type) {
       case 'jpg':
         if (! this.data.subsReadyJPG && (this.data.listsJPG.length === 0)) {
-          // Data not loaded yet, and this is the first loading
-          return (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '65vh',
-                }}
-              >
-                <CircularProgress size={1.5} />
-              </div>
-            );
+          // First loading
+          return <Loading />;
         } else if (this.data.subsReadyJPG && (this.data.listsJPG.length === 0)) {
-          // There is no data
+          // No-data
+          return <NoData />;
+        } else if (! this.data.subsReadyJPG && (this.data.listsJPG.length !== 0)) {
+          // Loading more
           return (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '65vh',
-                }}
-              >
-                
-                  <p> 데이터 수집 중 입니다... </p>
-                
-              </div>
+            <div>
+              <List>
+                {this.renderItems(this.data.listsJPG)}
+              </List>
+              <LoadingMore />
+            </div>
+            );
+        } else if (this.data.subsReadyJPG && (this.data.listsJPG.length !== 0)) {
+          // Load complete
+          return (
+            <div>
+              <List>
+                {this.renderItems(this.data.listsJPG)}
+              </List>
+              <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
+            </div>
             );
         }
-
-        return (
-          <div>
-            <List>
-              {this.renderItems(this.data.listsJPG)}
-            </List>
-            <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
-          </div>
-          );
+        break;
       case 'gif':
         if (! this.data.subsReadyGIF && (this.data.listsGIF.length === 0)) {
-          // Data not loaded yet, and this is the first loading
-          return (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '65vh',
-                }}
-              >
-                <CircularProgress size={1.5} />
-              </div>
-            );
+          // First loading
+          return <Loading />;
         } else if (this.data.subsReadyGIF && (this.data.listsGIF.length === 0)) {
-          // There is no data
+          // No-data
+          return <NoData />;
+        } else if (! this.data.subsReadyGIF && (this.data.listsGIF.length !== 0)) {
+          // Loading more
           return (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '65vh',
-                }}
-              >
-                
-                  <p> 데이터 수집 중 입니다... </p>
-                
-              </div>
+            <div>
+              <List>
+                {this.renderItems(this.data.listsGIF)}
+              </List>
+              <LoadingMore />
+            </div>
+            );
+        } else if (this.data.subsReadyGIF && (this.data.listsGIF.length !== 0)) {
+          // Load complete
+          return (
+            <div>
+              <List>
+                {this.renderItems(this.data.listsGIF)}
+              </List>
+              <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
+            </div>
             );
         }
-        return (
-          <div>
-            <List>
-              {this.renderItems(this.data.listsGIF)}
-            </List>
-            <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
-          </div>
-          );
+        break;
       case 'avi':
         if (! this.data.subsReadyAVI && (this.data.listsAVI.length === 0)) {
-          // Data not loaded yet, and this is the first loading
-          return (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '65vh',
-                }}
-              >
-                <CircularProgress size={1.5} />
-              </div>
-            );
+          // First loading
+          return <Loading />;
         } else if (this.data.subsReadyAVI && (this.data.listsAVI.length === 0)) {
-          // There is no data
+          // No-data
+          return <NoData />;
+        } else if (! this.data.subsReadyAVI && (this.data.listsAVI.length !== 0)) {
+          // Loading more
           return (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minHeight: '65vh',
-                }}
-              >
-                
-                  <p> 데이터 수집 중 입니다... </p>
-                
-              </div>
+            <div>
+              <List>
+                {this.renderItems(this.data.listsAVI)}
+              </List>
+              <LoadingMore />
+            </div>
+            );
+        } else if (this.data.subsReadyAVI && (this.data.listsAVI.length !== 0)) {
+          // Load complete
+          return (
+            <div>
+              <List>
+                {this.renderItems(this.data.listsAVI)}
+              </List>
+              <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
+            </div>
             );
         }
-        return (
-          <div>
-            <List>
-              {this.renderItems(this.data.listsAVI)}
-            </List>
-            <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
-          </div>
-          );
+        break;
       default:
         throw Meteor.Error('INVALID type');
     }
