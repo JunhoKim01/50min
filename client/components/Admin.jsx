@@ -1,7 +1,17 @@
+const {
+  FlatButton,
+} = MUI;
+
 Admin = React.createClass({
+  remove() {
+    Meteor.call('remove');
+  },
   render() {
     return (
-      <div>Admin</div>
+      <div>
+
+        <FlatButton label="Reset" onClick={this.remove}/>
+      </div>
     );
   },
 });

@@ -1,7 +1,12 @@
 
 body {
-  /* To prevent gray effect when click event fired on div.coulmn */
-  -webkit-tap-highlight-color: rgba(0,0,0,0); 
   margin: 0px;
+  min-height: 88vh;
+}
 
+
+
+* {
+  /* To prevent gray effect when click event fired on div.coulmn */
+  -webkit-tap-highlight-color: transparent;
 }

@@ -38,9 +38,6 @@ App = React.createClass({
       currentTabIndex: 0,
     };
   },
-  remove() {
-    Meteor.call('remove');
-  },
   tabHandler(tabIndex) {
     this.setState({
       currentTabIndex: tabIndex,
@@ -60,7 +57,6 @@ App = React.createClass({
         <AppBar
           title="50min"
           style={{ flexWrap: 'wrap' }}
-          // iconElementRight={<FlatButton label="Reset" onClick={this.remove}/>}
         >
           <div style={{ width: '100%' }}>
             <Tabs
