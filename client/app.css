@@ -1,7 +1,9 @@
 
 body {
   margin: 0px;
-  min-height: 88vh;
+  min-height: 88vh; /* For prevent iOS Safari Blink where outisde of HTML 
+                       (Strech body to 88% of view port)*/
+        
 }
 
 

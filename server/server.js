@@ -24,27 +24,27 @@ if (Meteor.isServer) {
       Meteor.setTimeout(() => {console.log(ruliwebScraper.testParser());}, 10000);
     }
 
-    const clienScraper = new CS('clien');
-    clienScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
-      ScrapJPG.insert(result);
-    });
-    clienScraper.scrapStart('gif', 'default', 1, 10, (result) => {
-      ScrapGIF.insert(result);
-    });
-    clienScraper.scrapStart('avi', 'default', 1, 10, (result) => {
-      ScrapAVI.insert(result);
-    });
+    // const clienScraper = new CS('clien');
+    // clienScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
+    //   ScrapJPG.insert(result);
+    // });
+    // clienScraper.scrapStart('gif', 'default', 1, 10, (result) => {
+    //   ScrapGIF.insert(result);
+    // });
+    // clienScraper.scrapStart('avi', 'default', 1, 10, (result) => {
+    //   ScrapAVI.insert(result);
+    // });
 
-    const ruliwebScraper = new CS('ruliweb');
-    ruliwebScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
-      ScrapJPG.insert(result);
-    });
-    ruliwebScraper.scrapStart('gif', 'default', 1, 10, (result) => {
-      ScrapGIF.insert(result);
-    });
-    ruliwebScraper.scrapStart('avi', 'default', 1, 10, (result) => {
-      ScrapAVI.insert(result);
-    });
+    // const ruliwebScraper = new CS('ruliweb');
+    // ruliwebScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
+    //   ScrapJPG.insert(result);
+    // });
+    // ruliwebScraper.scrapStart('gif', 'default', 1, 10, (result) => {
+    //   ScrapGIF.insert(result);
+    // });
+    // ruliwebScraper.scrapStart('avi', 'default', 1, 10, (result) => {
+    //   ScrapAVI.insert(result);
+    // });
 
 
     // SCRAP MODE

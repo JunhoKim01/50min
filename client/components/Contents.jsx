@@ -34,6 +34,7 @@ Contents = React.createClass({
       loadedJPG: LOAD_COUNTER_INIT,
       loadedGIF: LOAD_COUNTER_INIT,
       loadedAVI: LOAD_COUNTER_INIT,
+      initialLoad: true,
     };
   },
   getMeteorData() {
@@ -52,6 +53,9 @@ Contents = React.createClass({
       listsAVI: ScrapAVI.find({}, { sort: { createdAt: -1 } }).fetch(),
       // listsTXT: ScrapTXT.find({}, { sort: { createdAt: -1 } }).fetch(),
     };
+  },
+  initialLoadDone() {
+    this.setState({ initialLoad: false });
   },
   loadMore() {
     const type = this.props.tabIndex;
@@ -85,6 +89,38 @@ Contents = React.createClass({
   renderTabContents(type) {
     switch (type) {
       case 'jpg':
+        if (! this.data.subsReadyJPG && (this.data.listsJPG.length === 0)) {
+          // Data not loaded yet, and this is the first loading
+          return (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '65vh',
+                }}
+              >
+                <CircularProgress size={1.5} />
+              </div>
+            );
+        } else if (this.data.subsReadyJPG && (this.data.listsJPG.length === 0)) {
+          // There is no data
+          return (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '65vh',
+                }}
+              >
+                
+                  <p> 데이터 수집 중 입니다... </p>
+                
+              </div>
+            );
+        }
+
         return (
           <div>
             <List>
@@ -93,9 +129,38 @@ Contents = React.createClass({
             <RaisedButton fullWidth={true} label="더 보기..." onTouchTap={this.loadMore} />
           </div>
           );
-        // return this.data.subsReadyJPG
-        //   ? this.renderItems(this.data.listsJPG) : <CircularProgress />;
       case 'gif':
+        if (! this.data.subsReadyGIF && (this.data.listsGIF.length === 0)) {
+          // Data not loaded yet, and this is the first loading
+          return (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '65vh',
+                }}
+              >
+                <CircularProgress size={1.5} />
+              </div>
+            );
+        } else if (this.data.subsReadyGIF && (this.data.listsGIF.length === 0)) {
+          // There is no data
+          return (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '65vh',
+                }}
+              >
+                
+                  <p> 데이터 수집 중 입니다... </p>
+                
+              </div>
+            );
+        }
         return (
           <div>
             <List>
@@ -105,6 +170,37 @@ Contents = React.createClass({
           </div>
           );
       case 'avi':
+        if (! this.data.subsReadyAVI && (this.data.listsAVI.length === 0)) {
+          // Data not loaded yet, and this is the first loading
+          return (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '65vh',
+                }}
+              >
+                <CircularProgress size={1.5} />
+              </div>
+            );
+        } else if (this.data.subsReadyAVI && (this.data.listsAVI.length === 0)) {
+          // There is no data
+          return (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: '65vh',
+                }}
+              >
+                
+                  <p> 데이터 수집 중 입니다... </p>
+                
+              </div>
+            );
+        }
         return (
           <div>
             <List>
