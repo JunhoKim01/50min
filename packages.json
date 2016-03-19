@@ -1,7 +1,8 @@
+
 {
-  "cheerio": "0.20.0",
   "exposify": "0.4.3",
   "react-swipeable-views": "0.4.7",
-  "react-blink": "1.0.3"
+  "react-blink": "1.0.3",
+  "react-router": "2.0.1"
 }
 

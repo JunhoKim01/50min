@@ -1,80 +1,72 @@
-// var postSample = {
-//   createdAt: 123543765, // Unix timestamp
-//   communityName: 'clien',                 // Community name of this post
-//   batchCount: 1,                            // Batch number of the day which is reseted everyday
-//   type: 'jpg',                            // Type of this post
-//   title: 'This article is test01.jpg',    // Title of this post
-//   url: 'http://www.clien.net/?id=123456', // URL of this post
-//   size: '202',                            // Size of media this post contians as kilo bytes
-//   postId: 'clien.123456',                 // Unique id of this post : 'communityName+postId'
-//   point: 1,                               // Some calculatd point
-// };
 
 
+if (Meteor.isClient) {
+  Meteor.startup(() => {
+    // Dev
+    ConsoleMe.subscribe();
+    
+    // Locale Set
+    let locale = window.navigator.userLanguage || window.navigator.language;
+    // Chrome: ko, Firefox: ko-KR, Safaru: ko-kr
+    // And, moment only using for'ko'
+    if (locale === 'ko-KR' || locale === 'ko-kr') {
+      locale = 'ko';
+    }
+    moment.locale(locale);
 
-// Handle touch event
-injectTapEventPlugin();
-
-// 
-
-
-// Material ui init
-const {
-    AppBar,
-    Styles,
-    FlatButton,
-    CircularProgress,
-    RefreshIndicator,
-    Tabs,
-    Tab,
-    } = MUI;
-// const { ThemeManager, LightRawTheme } = Styles;
-
-App = React.createClass({
-
-  getInitialState() {
-    return {
-      // Selected tab
-      currentTabIndex: 0,
+    // TODO: favicon existence checker
+    // Load favicon`s source
+    // communities = {
+    //   clien: null,
+    //   ddanzi: null,
+    //   ruliweb: null,
+    // };
+    communities = {
+      clien: 'images/clien.ico',
+      ddanzi: 'images/ddanzi.ico',
+      ruliweb: 'images/ruliweb.png',
     };
-  },
-  remove() {
-    Meteor.call('remove');
-  },
-  tabHandler(tabIndex) {
-    this.setState({
-      currentTabIndex: tabIndex,
-    });
-    // Reset counter
-    // this.loadCounterReset(tabIndex);
-  },
-  // <div sytle={{ display: 'flex', justifyContent: 'center' }}>
-  //         <RefreshIndicator left={70} top={0} status="loading"
-  //       style={{}}/>
-  // </div>
-// <Contents tabHandler={this.tabHandler} state={this.state}/>
-  // Main renderer
-  render() {
-    return (
-      <div className="container">
-        <AppBar
-          title="50min"
-          style={{ flexWrap: 'wrap' }}
-          // iconElementRight={<FlatButton label="Reset" onClick={this.remove}/>}
-        >
-          <div style={{ width: '100%' }}>
-            <Tabs
-              onChange={this.tabHandler}
-              value={this.state.currentTabIndex}
-            >
-              <Tab label="JPG" value={0} />
-              <Tab label="GIF" value={1} />
-              <Tab label="AVI" value={2} />
-            </Tabs>
-          </div>
-        </AppBar>
-        <Contents tabHandler={this.tabHandler} tabIndex={this.state.currentTabIndex}/>
-      </div>
-    );
-  },
-});
+
+    
+    // for (const name in communities) {
+    //   let src = `images/${name}.png`;
+    //   var favicon = new Image();
+
+
+    //   favicon.src = src;
+      
+    //   // Check if favicon with .png exits.
+    //   // And if not, return favicon src with .ico
+    //   if (favicon.height === 0) {
+    //     src = `images/${name}.ico`;
+    //   }
+
+    //   // Save favicon src
+    //   communities[name] = src;
+    // }
+
+
+    // User Meteor.startup to render the component after the page is ready
+    // ReactDOM.render(<App />, document.getElementById('render-target'));
+
+  
+    // const router = ReactRouter.createRoutes({
+    //   routes,
+    //   location: ReactRouter.HistoryLocation,
+    // });
+    const {
+      Route,
+      Router,
+      browserHistory,
+    } = ReactRouter;
+
+    ReactDOM.render(
+      <Router history={browserHistory}>
+        <Route path="/" component={App} />
+        <Route path="/admin" component={Admin} />
+        <Route path="*" component={AppNotFound} />
+      </Router>, document.getElementById('render-target'));
+
+    
+  });
+}
