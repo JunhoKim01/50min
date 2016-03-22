@@ -1,14 +1,12 @@
 if (Meteor.isServer) {
   Meteor.startup(() => {
-    // code to run on server at startup
-    // cheerio = Meteor.npmRequire('cheerio');
-
-    
     // Publishing
     Meteor.publish('scrapJPG', loaded => ScrapJPG.find({}, { sort: { createdAt: -1 }, limit: loaded }));
     Meteor.publish('scrapGIF', loaded => ScrapGIF.find({}, { sort: { createdAt: -1 }, limit: loaded }));
     Meteor.publish('scrapAVI', loaded => ScrapAVI.find({}, { sort: { createdAt: -1 }, limit: loaded }));
     Meteor.publish('scrapTXT', loaded => ScrapTXT.find({}, { sort: { createdAt: -1 }, limit: loaded }));
+
+    Meteor.publish('status', () => Status.find());
 
     // Develop
     ConsoleMe.enabled = true;
@@ -24,27 +22,81 @@ if (Meteor.isServer) {
       Meteor.setTimeout(() => {console.log(ruliwebScraper.testParser());}, 10000);
     }
 
-    const clienScraper = new CS('clien');
-    clienScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
-      ScrapJPG.insert(result);
-    });
-    clienScraper.scrapStart('gif', 'default', 1, 10, (result) => {
-      ScrapGIF.insert(result);
-    });
-    clienScraper.scrapStart('avi', 'default', 1, 10, (result) => {
-      ScrapAVI.insert(result);
-    });
+    // const clienScraper = new CS('clien');
 
-    const ruliwebScraper = new CS('ruliweb');
-    ruliwebScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
-      ScrapJPG.insert(result);
-    });
-    ruliwebScraper.scrapStart('gif', 'default', 1, 10, (result) => {
-      ScrapGIF.insert(result);
-    });
-    ruliwebScraper.scrapStart('avi', 'default', 1, 10, (result) => {
-      ScrapAVI.insert(result);
-    });
+    let options = {};
+    options.clien = {
+      communityName: 'clien',
+      types: ['jpg', 'gif', 'avi'],
+      regexps: ['default', 'default', 'default'],
+      intervalMin: 5,
+      lastPage: 1,
+    };
+
+    // options.clien.jpg = Status.findONe({instanceId: 'clien.jpg'});
+    // if (options.clien.jpg) {
+    //   // Use defulat option
+    //   options.clien.jpg = {
+    //     communityName: 'clien',
+    //     type: 'jpg',
+    //     regexp: 'default',
+    //     intervalMin: 1,
+    //     lastPage: 1,
+    //   };  
+    // }
+    // options.clien.gif = Status.findONe({instanceId: 'clien.gif'});
+    // if (options.clien.gif) {
+    //   // Use defulat option
+    //   options.clien.gif = {
+    //     communityName: 'clien',
+    //     type: 'gif',
+    //     regexp: 'default',
+    //     intervalMin: 1,
+    //     lastPage: 1,
+    //   };  
+    // }
+    // options.clien.jpg = Status.findONe({instanceId: 'clien.jpg'});
+    // if (options.clien.jpg) {
+    //   // Use defulat option
+    //   options.clien.jpg = {
+    //     communityName: 'clien',
+    //     type: 'jpg',
+    //     regexp: 'default',
+    //     intervalMin: 1,
+    //     lastPage: 1,
+    //   };  
+    // }
+
+
+    // clienScraper.scrapStartWithOptions(options.clien.jpg, (resultArr) => {
+    //   // Save items
+    //   resultArr.forEach((item) => {ScrapJPG.insert(item);});
+    //   // Update DB snapshot
+    //   Meteor.call('updateSnapshot', options.clien.jpg, resultArr);
+    // });
+    // clienScraper.scrapStartWithOptions(options.clien.gif, (resultArr) => {
+    //   // Save items
+    //   resultArr.forEach((item) => {ScrapGIF.insert(item);});
+    //   // Update DB snapshot
+    //   Meteor.call('updateSnapshot', options.clien.gif, resultArr);
+    // });
+    // clienScraper.scrapStartWithOptions(options.clien.avi, (resultArr) => {
+    //   // Save items
+    //   resultArr.forEach((item) => {ScrapAVI.insert(item);});
+    //   // Update DB snapshot
+    //   Meteor.call('updateSnapshot', options.clien.avi, resultArr);
+    // });
+
+    // const ruliwebScraper = new CS('ruliweb');
+    // ruliwebScraper.scrapStart('jpg', 'default', 1, 5, (result) => {
+    //   ScrapJPG.insert(result);
+    // });
+    // ruliwebScraper.scrapStart('gif', 'default', 1, 10, (result) => {
+    //   ScrapGIF.insert(result);
+    // });
+    // ruliwebScraper.scrapStart('avi', 'default', 1, 10, (result) => {
+    //   ScrapAVI.insert(result);
+    // });
 
 
     // SCRAP MODE

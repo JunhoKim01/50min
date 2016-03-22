@@ -3,9 +3,11 @@
 
 ## Changelogs
 
-### 0.3.1
+### 0.4.0
+major changes:
+ * startScarp() deprecated. Use startScrapWithOptions(). 
 minor changes:
- * String concat replaced by Template string.
+ * Default regular expression updated to catch this : 'foo . jpg'.
 
 ### 0.3.0
 features:
