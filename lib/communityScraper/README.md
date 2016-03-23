@@ -3,6 +3,9 @@
 
 ## Changelogs
 
+### 0.4.1
+major changes:
+ * Now scrapStart() get every items that matches with each types with just one HTTP get (per page).
 ### 0.4.0
 major changes:
  * startScarp() deprecated. Use startScrapWithOptions(). 

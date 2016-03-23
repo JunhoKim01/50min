@@ -11,10 +11,10 @@ const itemStyle = {
 
 Item = React.createClass({
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    url: React.PropTypes.string.isRequired,
-    createdAt: React.PropTypes.number.isRequired,
-    source: React.PropTypes.string.isRequired,
+    // title: React.PropTypes.string.isRequired,
+    // url: React.PropTypes.string.isRequired,
+    // createdAt: React.PropTypes.number.isRequired,
+    // source: React.PropTypes.string.isRequired,
   },
   moveTo() {
     let url = this.props.url;

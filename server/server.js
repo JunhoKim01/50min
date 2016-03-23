@@ -22,7 +22,7 @@ if (Meteor.isServer) {
       Meteor.setTimeout(() => {console.log(ruliwebScraper.testParser());}, 10000);
     }
 
-    // const clienScraper = new CS('clien');
+    const communityScraper = new CS();
 
     let options = {};
     options.clien = {
@@ -32,6 +32,37 @@ if (Meteor.isServer) {
       intervalMin: 5,
       lastPage: 1,
     };
+    communityScraper.startScrap(options.clien, resultArr => {
+      // Save items
+      // console.log(resultArr);
+      resultArr.forEach(item => {
+        switch (item.type) {
+          case 'jpg':
+            ScrapJPG.insert(item);
+            break;
+          case 'gif':
+            ScrapGIF.insert(item);
+            break;
+          case 'avi':
+            ScrapAVI.insert(item);
+            break;
+          default:
+            break;
+        }
+      });
+      // Update DB snapshot
+      Meteor.call('updateSnapshot', options.clien, resultArr);
+    });
+
+    // options.ruliweb = {
+    //   communityName: 'ruliweb',
+    //   types: ['jpg', 'gif', 'avi'],
+    //   regexps: ['default', 'default', 'default'],
+    //   intervalMin: 1,
+    //   lastPage: 1,
+    // };
+
+
 
     // options.clien.jpg = Status.findONe({instanceId: 'clien.jpg'});
     // if (options.clien.jpg) {

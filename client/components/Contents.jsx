@@ -99,7 +99,7 @@ Contents = React.createClass({
             number={index}
             key={item._id}
             title={item.title}
-            url={item.url}
+            url={item.postUrl}
             source={item.communityName}
             createdAt={item.createdAt} />);
   },
