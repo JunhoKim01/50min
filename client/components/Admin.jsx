@@ -12,6 +12,8 @@ const {
   Toggle,
   Styles,
   Snackbar,
+  SelectField,
+  MenuItem,
 } = MUI;
 
 
@@ -24,16 +26,18 @@ const cardStyles = {
 ScrapInstance = React.createClass({
   propTypes: {
     communityName: React.PropTypes.string.isRequired,
-    type: React.PropTypes.string.isRequired,
-    regexp: React.PropTypes.string.isRequired,
+    // types: React.PropTypes.string.isRequired,
+    // regexp: React.PropTypes.string.isRequired,
     intervalMin: React.PropTypes.number.isRequired,
     lastPage: React.PropTypes.number.isRequired,
-    totalItemCount: React.PropTypes.number.isRequired,
+    totalItemCount: React.PropTypes.object.isRequired,
   },
   getInitialState() {
     return {
       open: false,
       snackbarMessage: '',
+      intervalMin: this.props.intervalMin,
+      lastPage: this.props.lastPage,
     };
   },
   snackbarOpener() {
@@ -50,26 +54,73 @@ ScrapInstance = React.createClass({
   },
   instanceSave() {
     // Save current settings and re-start the instance
+    // console.log(this.state.intervalMin);
+    // console.log(this.state.lastPage);
+    Meteor.call(
+      'changeCommunityScrapOption',
+      this.props.communityName,
+      this.state.intervalMin,
+      this.state.lastPage
+    );
     this.setState({ snackbarMessage: 'Save & Go' });
     this.snackbarOpener();
+  },
+  intervalMinChange(event, index, value) {
+    this.setState({ intervalMin: value });
+    // console.log(value);
+  },
+  lastPageChange(event, index, value) {
+    this.setState({ lastPage: value });
+    // console.log(value);
+  },
+  counterRenderer() {
+    return (
+      <ol>
+        {Object.keys(this.props.totalItemCount).map((key) => {
+          return (<li key={key}>{`${key}: ${this.props.totalItemCount[key]}`}</li>);
+        })}
+      </ol>
+    );
   },
   render() {
     return (
       <div>
       <Card style={cardStyles}>
         <CardTitle
-          title={`${this.props.communityName} / ${this.props.type.toUpperCase()}`}
+          title={`${this.props.communityName}`}
           subtitle={'LIVE'}
           subtitleColor={Styles.Colors.green500}
         />
         <CardText>
           <h3>Options</h3>
             <div style={{ display: 'inlineBlock' }}>
-              <div>Scraps every : <TextField style={{ width: 'maxContent' }} defaultValue={this.props.intervalMin}/> min</div>
-              <div>Scraps <TextField style={{ width: 'maxContent' }} defaultValue={this.props.lastPage}/> pages </div>
+              <div>
+                Scraps every :
+                <SelectField
+                  value={this.state.intervalMin}
+                  onChange={this.intervalMinChange}
+                >
+                  <MenuItem value={1} primaryText="1 minute"/>
+                  <MenuItem value={5} primaryText="5 minutes"/>
+                  <MenuItem value={10} primaryText="10 minutes"/>
+                </SelectField>
+              </div>
+              <div>
+                Scraps to :
+                <SelectField
+                  value={this.state.lastPage}
+                  onChange={this.lastPageChange}
+                >
+                  <MenuItem value={1} primaryText="1 page"/>
+                  <MenuItem value={2} primaryText="2 page"/>
+                  <MenuItem value={3} primaryText="3 page"/>
+                  <MenuItem value={4} primaryText="4 page"/>
+                  <MenuItem value={5} primaryText="5 page"/>
+                </SelectField>
+              </div>
             </div>
           <h3>Status</h3>
-            <div>Total items : {this.props.totalItemCount}</div>
+            <div>Total items : {this.counterRenderer()} </div>
         </CardText>
         <CardActions style={{ display: 'flex', justifyContent: 'spaceBetween' }}>
           <FlatButton label="Save & Go" onClick={this.instanceSave}/>
@@ -102,17 +153,17 @@ Admin = React.createClass({
   remove() {
     Meteor.call('remove');
   },
-  instancesRender() {
+  instancesRenderer() {
     return (
       this.data.status.map((instance) =>
-        <ScrapInstance 
+        <ScrapInstance
           key={instance._id}
           communityName={instance.communityName}
-          type={instance.type}
-          regexp={instance.regexp}
+          types={instance.types}
+          // regexp={instance.regexp}
           intervalMin={instance.intervalMin}
           lastPage={instance.lastPage}
-          totalItemCount={instance.totalItemCount}
+          totalItemCount={instance.itemCount}
         />
       ));
   },
@@ -121,7 +172,7 @@ Admin = React.createClass({
       <div>
         <AppBar title="Admin" />
         <div style={{ display: 'flex', justifyContent: 'spaceBetween', flexWrap: 'wrap' }}>
-          {this.instancesRender()}
+          {this.instancesRenderer()}
         </div>
         Reset DB : <FlatButton label="Reset" onClick={this.remove}/>
       </div>
