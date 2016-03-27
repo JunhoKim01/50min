@@ -38,6 +38,8 @@ ScrapInstance = React.createClass({
       snackbarMessage: '',
       intervalMin: this.props.intervalMin,
       lastPage: this.props.lastPage,
+      status: this.props.status,
+      startTime: this.props.startTime,
     };
   },
   snackbarOpener() {
@@ -51,6 +53,9 @@ ScrapInstance = React.createClass({
   },
   instanceStop() {
     // Stop the scrap instance
+    Meteor.call('stopScrap', this.props.communityName);
+    this.setState({ snackbarMessage: `[${this.props.communityName}] Intance stopped` });
+    this.snackbarOpener();
   },
   instanceSave() {
     // Save current settings and re-start the instance
@@ -62,7 +67,7 @@ ScrapInstance = React.createClass({
       this.state.intervalMin,
       this.state.lastPage
     );
-    this.setState({ snackbarMessage: 'Save & Go' });
+    this.setState({ snackbarMessage: `[${this.props.communityName}] Setting saved & instance restarted` });
     this.snackbarOpener();
   },
   intervalMinChange(event, index, value) {
@@ -88,10 +93,12 @@ ScrapInstance = React.createClass({
       <Card style={cardStyles}>
         <CardTitle
           title={`${this.props.communityName}`}
-          subtitle={'LIVE'}
-          subtitleColor={Styles.Colors.green500}
+          subtitle={this.props.status ? 'LIVE' : 'STOP'}
+          subtitleColor={this.props.status ? Styles.Colors.green500 : Styles.Colors.red500}
         />
         <CardText>
+          <h3>Start time</h3>
+            <div>{moment(this.props.startTime).format('LLLL')}</div>
           <h3>Options</h3>
             <div style={{ display: 'inlineBlock' }}>
               <div>
@@ -123,9 +130,9 @@ ScrapInstance = React.createClass({
             <div>Total items : {this.counterRenderer()} </div>
         </CardText>
         <CardActions style={{ display: 'flex', justifyContent: 'spaceBetween' }}>
-          <FlatButton label="Save & Go" onClick={this.instanceSave}/>
+          <FlatButton label="Save & Go" onClick={this.instanceSave} />
           <FlatButton label="Start" />
-          <FlatButton label="Stop" />
+          <FlatButton label="Stop" onClick={this.instanceStop} />
         </CardActions>
       </Card>
       <Snackbar
@@ -160,6 +167,8 @@ Admin = React.createClass({
           key={instance._id}
           communityName={instance.communityName}
           types={instance.types}
+          status={instance.status}
+          startTime={instance.startTime}
           // regexp={instance.regexp}
           intervalMin={instance.intervalMin}
           lastPage={instance.lastPage}

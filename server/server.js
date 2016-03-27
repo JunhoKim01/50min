@@ -27,7 +27,7 @@ if (Meteor.isServer) {
     // Set options
     let options = {};
     options.clien = Meteor.call('getCommunityScrapOption', 'clien');
-    console.log(options.clien);
+    // console.log(options.clien);
     // Start community scraper
     communityScraper.scrapStart(
       'clien',
