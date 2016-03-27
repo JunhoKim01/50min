@@ -18,7 +18,7 @@ const {
 
 
 const cardStyles = {
-  width: 350,
+  
   // minHeight: 400,
   margin: 8,
 };
@@ -110,6 +110,9 @@ ScrapInstance = React.createClass({
                   <MenuItem value={1} primaryText="1 minute"/>
                   <MenuItem value={5} primaryText="5 minutes"/>
                   <MenuItem value={10} primaryText="10 minutes"/>
+                  <MenuItem value={30} primaryText="30 minutes"/>
+                  <MenuItem value={60} primaryText="1 hour"/>
+                  <MenuItem value={360} primaryText="6 hours"/>
                 </SelectField>
               </div>
               <div>

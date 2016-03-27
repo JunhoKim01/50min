@@ -27,6 +27,7 @@ if (Meteor.isServer) {
     // Set options
     let options = {};
     options.clien = Meteor.call('getCommunityScrapOption', 'clien');
+    options.ruliweb = Meteor.call('getCommunityScrapOption', 'ruliweb');
     // console.log(options.clien);
     // Start community scraper
     communityScraper.scrapStart(
@@ -39,7 +40,16 @@ if (Meteor.isServer) {
       Meteor.call('updateSnapshot', thisOptions, resultArr);
       }
     );
-
+    communityScraper.scrapStart(
+      'ruliweb',
+      options.ruliweb,
+      (thisOptions, resultArr) => {
+      // Save items
+      Meteor.call('saveItems', resultArr);
+      // Update DB snapshot
+      Meteor.call('updateSnapshot', thisOptions, resultArr);
+      }
+    );
     // options.clien.jpg = Status.findONe({instanceId: 'clien.jpg'});
     // if (options.clien.jpg) {
     //   // Use defulat option
