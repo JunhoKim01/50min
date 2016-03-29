@@ -1,17 +1,38 @@
 {
-  "name": "myapp7",
+  "name": "meteor-50min",
   "version": "1.0.0",
-  "description": "",
+  "description": "Community scraper",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo Error: no test specified && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "JunhoKim01",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.0.2",
     "eslint-plugin-react": "^4.1.0"
-  }
+  },
+  "dependencies": {
+    "browserify": "^13.0.0",
+    "cheerio": "^0.20.0",
+    "iconv": "^2.1.11",
+    "material-ui": "^0.15.0-alpha.2",
+    "meteor-node-stubs": "^0.2.1",
+    "moment": "^2.12.0",
+    "react": "^0.14.7",
+    "react-addons-pure-render-mixin": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-router": "^2.0.1",
+    "react-tap-event-plugin": "^0.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JunhoKim01/50min.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JunhoKim01/50min/issues"
+  },
+  "homepage": "https://github.com/JunhoKim01/50min#readme"
 }

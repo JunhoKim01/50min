@@ -1,10 +1,10 @@
-{
-  "transforms": {
-    "exposify": {
-      "global": true,
-      "expose": {
-        "react": "React"
-      }
-    }
-  }
-}
+// {
+//   "transforms": {
+//     "exposify": {
+//       "global": true,
+//       "expose": {
+//         "react": "React"
+//       }
+//     }
+//   }
+// }

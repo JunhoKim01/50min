@@ -1,20 +1,18 @@
-const {
-  AppBar,
-  Divider,
-  FlatButton,
-  TextField,
-  Card,
-  CardActions,
-  CardHeader,
-  CardMedia,
-  CardTitle,
-  CardText,
-  Toggle,
-  Styles,
-  Snackbar,
-  SelectField,
-  MenuItem,
-} = MUI;
+// React
+import React from 'react';
+// Libs
+import moment from 'moment';
+// MUIs
+import AppBar from 'material-ui/lib/app-bar';
+import FlatButton from 'material-ui/lib/flat-button';
+import Card from 'material-ui/lib/card/card';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
+import Snackbar from 'material-ui/lib/snackbar';
+import SelectField from 'material-ui/lib/select-field';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import Styles from 'material-ui/lib/styles';
 
 
 const cardStyles = {
@@ -22,6 +20,7 @@ const cardStyles = {
   // minHeight: 400,
   margin: 8,
 };
+
 
 ScrapInstance = React.createClass({
   propTypes: {

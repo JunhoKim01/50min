@@ -1,8 +1,7 @@
-const {
-  RefreshIndicator,
-} = MUI;
+import React from 'react';
+import RefreshIndicator from 'material-ui/lib/refresh-indicator';
 
-LoadingMore = React.createClass({
+export default class LoadingMore extends React.Component {
   render() {
     return (
       <div style={{ position: 'relative' }}>
@@ -15,5 +14,5 @@ LoadingMore = React.createClass({
         />
       </div>
       );
-  },
-});
+  }
+}

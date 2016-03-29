@@ -1,44 +1,12 @@
+import React from 'react';
+import List from 'material-ui/lib/lists/list';
+import RaisedButton from 'material-ui/lib/raised-button';
+
+import LoadingMore from '../components/LoadingMore.jsx';
+import NoData from '../components/NoData.jsx';
+
 const LOAD_COUNTER_INIT = 20;
 const LOAD_COUNTER_ADD = 20;
-
-// if (! SwipeableViews) {
-//   throw Meteor.Error('SwipeableViews undefined');
-// } else if (SwipeableViews === null) {
-//   throw Meteor.Error('SwipeableViews null');
-// } else {
-//   console.log(SwipeableViews);
-// }
-
-// SwipeableView
-SwipeableViews = SV.default;
-
-const {
-    Tabs,
-    Tab,
-    List,
-    Divider,
-    CircularProgress,
-    LinearProgress,
-    RefreshIndicator,
-    RaisedButton,
-    } = MUI;
-
-NoData = React.createClass({
-  render() {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '65vh',
-        }}
-      >
-        <p> 데이터 수집 중 입니다... </p>
-      </div>
-    );
-  }
-});
 
 Contents = React.createClass({
   mixins: [ReactMeteorData],

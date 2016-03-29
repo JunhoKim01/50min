@@ -1,3 +1,15 @@
+// React
+import React from 'react';
+import ReactDOM from 'react-dom';
+// Libs
+import moment from 'moment';
+// React router
+import { Router, Route, browserHistory } from 'react-router';
+
+// Components
+import AppNotFound from '../client/components/AppNotFound.jsx';
+
+
 
 
 if (Meteor.isClient) {
@@ -57,11 +69,6 @@ if (Meteor.isClient) {
     //   routes,
     //   location: ReactRouter.HistoryLocation,
     // });
-    const {
-      Route,
-      Router,
-      browserHistory,
-    } = ReactRouter;
 
     ReactDOM.render(
       <Router history={browserHistory}>

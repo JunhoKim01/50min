@@ -12,7 +12,7 @@
 
 var lodash = require("lodash"),
     createTokenStore = require("../token-store.js"),
-    estraverse = require("./estraverse");
+    Traverser = require("./traverser");
 
 //------------------------------------------------------------------------------
 // Private
@@ -261,10 +261,11 @@ SourceCode.prototype = {
      * @returns {ASTNode} The node if found or null if not found.
      */
     getNodeByRangeIndex: function(index) {
-        var result = null;
-        var resultParent = null;
+        var result = null,
+            resultParent = null,
+            traverser = new Traverser();
 
-        estraverse.traverse(this.ast, {
+        traverser.traverse(this.ast, {
             enter: function(node, parent) {
                 if (node.range[0] <= index && index < node.range[1]) {
                     result = node;

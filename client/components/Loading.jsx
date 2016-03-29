@@ -1,6 +1,5 @@
-const {
-  CircularProgress,
-} = MUI;
+import React from 'react';
+import CircularProgress from 'material-ui/lib/circular-progress';
 
 Loading = React.createClass({
   render() {

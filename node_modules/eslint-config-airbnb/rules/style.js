@@ -59,12 +59,14 @@ module.exports = {
     'new-parens': 0,
     // allow/disallow an empty newline after var statement
     'newline-after-var': 0,
+    // http://eslint.org/docs/rules/newline-before-return
+    'newline-before-return': 0,
     // enforces new line after each method call in the chain to make it
     // more readable and easy to maintain
     // http://eslint.org/docs/rules/newline-per-chained-call
     'newline-per-chained-call': [0, { 'ignoreChainWithDepth': 3 }],
     // disallow use of the Array constructor
-    'no-array-constructor': 0,
+    'no-array-constructor': 2,
     // disallow use of the continue statement
     'no-continue': 0,
     // disallow comments inline after code

@@ -13,21 +13,27 @@
 
 
 // Handle touch event
+import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-// 
+import React from 'react';
+import AppBar from 'material-ui/lib/app-bar';
+import FlatButton from 'material-ui/lib/flat-button';
+import Tabs from 'material-ui/lib/tabs/tabs';
+import Tab from 'material-ui/lib/tabs/tab';
+
 
 
 // Material ui init
-const {
-    AppBar,
-    Styles,
-    FlatButton,
-    CircularProgress,
-    RefreshIndicator,
-    Tabs,
-    Tab,
-    } = MUI;
+// const {
+//     AppBar,
+//     Styles,
+//     FlatButton,
+//     CircularProgress,
+//     RefreshIndicator,
+//     Tabs,
+//     Tab,
+//     } = MUI;
 // const { ThemeManager, LightRawTheme } = Styles;
 
 App = React.createClass({

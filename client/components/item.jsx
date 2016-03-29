@@ -1,7 +1,7 @@
-const {
-    ListItem,
-    Avatar,
-  } = MUI;
+import React from 'react';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Avatar from 'material-ui/lib/avatar';
+import moment from 'moment';
 
 const itemStyle = {
   paddingTop: 8,
