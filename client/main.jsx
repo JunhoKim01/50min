@@ -40,6 +40,7 @@ if (Meteor.isClient) {
       clien: 'images/clien.ico',
       ddanzi: 'images/ddanzi.ico',
       ruliweb: 'images/ruliweb.png',
+      pgr21: 'images/pgr21.ico',
     };
 
     

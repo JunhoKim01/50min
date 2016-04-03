@@ -54,7 +54,12 @@ Item = React.createClass({
       <ListItem
         sytle={itemStyle}
         primaryText={this.props.title}
-        leftAvatar={<Avatar size={40} src={communities[this.props.source]} />}
+        leftAvatar={
+          <Avatar
+           size={40}
+           backgroundColor={'rgba(0, 0, 0, 0)'}
+           src={communities[this.props.source]}
+          />}
         secondaryText={moment(this.props.createdAt).fromNow()}
         onTouchTap={this.moveTo}
         />

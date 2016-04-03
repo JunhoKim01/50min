@@ -17,7 +17,7 @@
   "dependencies": {
     "browserify": "^13.0.0",
     "cheerio": "^0.20.0",
-    "iconv": "^2.1.11",
+    "iconv-lite": "^0.4.13",
     "material-ui": "^0.15.0-alpha.2",
     "meteor-node-stubs": "^0.2.1",
     "moment": "^2.12.0",
