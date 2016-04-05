@@ -18,14 +18,9 @@ if (Meteor.isServer) {
 
     // TODO: Scrap controller
 
-    const DEVMODE = true;
+    // const ts = new CS();
 
-    if (DEVMODE === false) {
-      // DEVO MODE
-      const ts = new CS();
-
-      Meteor.setTimeout(() => {console.log(ts.testParser());}, 10000);
-    }
+    // Meteor.setTimeout(() => {console.log(ts.testParser());}, 10000);
 
 
     communityScraper = new CS();
@@ -36,17 +31,18 @@ if (Meteor.isServer) {
     options.ruliweb = Meteor.call('getCommunityScrapOption', 'ruliweb');
     options.bestiz = Meteor.call('getCommunityScrapOption', 'bestiz');
     options.pgr21 = Meteor.call('getCommunityScrapOption', 'pgr21');
+    options.mlbpark = Meteor.call('getCommunityScrapOption', 'mlbpark');
 
     // console.log(options.clien);
     // Start community scraper
-    communityScraper.scrapStart(
-      'clien',
-      options.clien,
-      (thisOptions, resultArr) => {
-        Meteor.call('saveItems', resultArr);  // Save items
-        Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-      }
-    );
+    // communityScraper.scrapStart(
+    //   'clien',
+    //   options.clien,
+    //   (thisOptions, resultArr) => {
+    //     Meteor.call('saveItems', resultArr);  // Save items
+    //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    //   }
+    // );
     // communityScraper.scrapStart(
     //   'ruliweb',
     //   options.ruliweb,
@@ -55,14 +51,14 @@ if (Meteor.isServer) {
     //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
     //   }
     // );
-    // communityScraper.scrapStart(
-    //   'bestiz',
-    //   options.bestiz,
-    //   (thisOptions, resultArr) => {
-    //     Meteor.call('saveItems', resultArr);  // Save items
-    //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-    //   }
-    // );
+    communityScraper.scrapStart(
+      'bestiz',
+      options.bestiz,
+      (thisOptions, resultArr) => {
+        Meteor.call('saveItems', resultArr);  // Save items
+        Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+      }
+    );
     // communityScraper.scrapStart(
     //   'pgr21',
     //   options.pgr21,
@@ -71,6 +67,14 @@ if (Meteor.isServer) {
     //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
     //   }
     // );
+    communityScraper.scrapStart(
+      'mlbpark',
+      options.mlbpark,
+      (thisOptions, resultArr) => {
+        Meteor.call('saveItems', resultArr);  // Save items
+        Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+      }
+    );
 
 
   });

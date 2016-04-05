@@ -49,6 +49,7 @@ Item = React.createClass({
     return src;
   },
   render() {
+    const faviconSrc = communities[this.props.source];
     return (
       // TODO: click to link
       <ListItem
@@ -58,8 +59,10 @@ Item = React.createClass({
           <Avatar
            size={40}
            backgroundColor={'rgba(0, 0, 0, 0)'}
-           src={communities[this.props.source]}
-          />}
+           src={faviconSrc}
+          >
+          
+          </Avatar>}
         secondaryText={moment(this.props.createdAt).fromNow()}
         onTouchTap={this.moveTo}
         />

@@ -41,6 +41,8 @@ if (Meteor.isClient) {
       ddanzi: 'images/ddanzi.ico',
       ruliweb: 'images/ruliweb.png',
       pgr21: 'images/pgr21.ico',
+      mlbpark: 'images/mlbpark.ico',
+      bestiz: null,
     };
 
     
