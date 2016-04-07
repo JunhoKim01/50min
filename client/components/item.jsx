@@ -55,6 +55,8 @@ Item = React.createClass({
       mlbpark: 'rgba(255, 143, 1, 1)',
       ruliweb: 'rgba(26, 112, 221, 1)',
       pgr21: 'rgba(171, 70, 72, 1)',
+      todayhumor: 'rgba(59, 161, 199, 1)',
+
 
     };
     return communityColor[source];

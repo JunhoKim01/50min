@@ -19,7 +19,6 @@ if (Meteor.isServer) {
     // TODO: Scrap controller
 
     // const ts = new CS();
-
     // Meteor.setTimeout(() => {console.log(ts.testParser());}, 10000);
 
 
@@ -32,8 +31,8 @@ if (Meteor.isServer) {
     options.bestiz = Meteor.call('getCommunityScrapOption', 'bestiz');
     options.pgr21 = Meteor.call('getCommunityScrapOption', 'pgr21');
     options.mlbpark = Meteor.call('getCommunityScrapOption', 'mlbpark');
-
-    // console.log(options.clien);
+    options.todayhumor = Meteor.call('getCommunityScrapOption', 'todayhumor');
+    
     // Start community scraper
     communityScraper.scrapStart(
       'clien',
@@ -70,6 +69,14 @@ if (Meteor.isServer) {
     communityScraper.scrapStart(
       'mlbpark',
       options.mlbpark,
+      (thisOptions, resultArr) => {
+        Meteor.call('saveItems', resultArr);  // Save items
+        Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+      }
+    );
+    communityScraper.scrapStart(
+      'todayhumor',
+      options.todayhumor,
       (thisOptions, resultArr) => {
         Meteor.call('saveItems', resultArr);  // Save items
         Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
