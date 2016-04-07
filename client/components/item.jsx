@@ -48,8 +48,19 @@ Item = React.createClass({
 
     return src;
   },
+  getCommunityColor(source) {
+    const communityColor = {
+      clien: 'rgba(55, 66, 115, 1)',
+      bestiz: 'rgba(187, 202, 231, 1)',
+      mlbpark: 'rgba(255, 143, 1, 1)',
+      ruliweb: 'rgba(26, 112, 221, 1)',
+      pgr21: 'rgba(171, 70, 72, 1)',
+
+    };
+    return communityColor[source];
+  },
   render() {
-    const faviconSrc = communities[this.props.source];
+    // const faviconSrc = communities[this.props.source];
     return (
       // TODO: click to link
       <ListItem
@@ -58,10 +69,11 @@ Item = React.createClass({
         leftAvatar={
           <Avatar
            size={40}
-           backgroundColor={'rgba(0, 0, 0, 0)'}
-           src={faviconSrc}
+           color={'rgba(255, 255, 255, 1)'}
+           backgroundColor={this.getCommunityColor(this.props.source)}
+           // src={faviconSrc}
           >
-          
+          {this.props.source.charAt(0).toUpperCase()}
           </Avatar>}
         secondaryText={moment(this.props.createdAt).fromNow()}
         onTouchTap={this.moveTo}
