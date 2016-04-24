@@ -3,12 +3,13 @@
     	"browser": true,
     	"meteor": true
 	},
-	"extends": "airbnb/base",
-  "plugins": ["react"],
+	"extends": "airbnb",
+  
 
   "rules": {
     "no-multiple-empty-lines": [2, {"max": 2}],
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "jsx-boolean-value": 0,
     
 
   }
