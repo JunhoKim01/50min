@@ -5,18 +5,22 @@ import Styles from 'material-ui/lib/styles';
 import Paper from 'material-ui/lib/paper';
 import CircularProgress from 'material-ui/lib/circular-progress';
 
+const productionUrl = 'https://meteor-50min.herokuapp.com';
+const developUrl = 'http://192.168.1.60:3000';
+
 export default class Bridge extends React.Component {
   constructor(props) {
-    super(props);
+    super(props); 
     this.state = {
-      urlLoaded: false,
+      appUrl: this.props.params.devMode ? developUrl : productionUrl,
     };
   }
-  componentWillReceiveProps() {
-    this.setState({
-      urlLoaded: true,
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // this.setState({
+      
+  //   // });
+  //   console.log(nextProps);
+  // }
   getCommunityColor(source) {
     const communityColor = {
       clien: 'rgba(55, 66, 115, 1)',
@@ -30,27 +34,27 @@ export default class Bridge extends React.Component {
   }
   shareKakao() {
     const content = {
-      label: '50min에서 공유',
-      webLink: {
-        text: this.props.title,
-        url: `https://meteor-50min.herokuapp.com/${this.props.type}/${this.props.communityName}/${this.props.postId}`,
+      label: this.props.title,
+      webButton: {
+        text: '50min에서 보기',
+        url: `${this.state.appUrl}/${this.props.params.type}/${this.props.params.communityName}/${this.props.params.postId}`,
       },
     };
     Kakao.Link.sendTalkLink(content);
   }
-  share() {
-    <Paper
-            style={{
-              flexGrow: 1,
-              marginLeft: 10,
-              marginRight: 10,
-              padding: 8,
-            }}
-            zDepth={1}
-          >
-             Home
-          </Paper>
-  }
+  // share() {
+  //   <Paper
+  //           style={{
+  //             flexGrow: 1,
+  //             marginLeft: 10,
+  //             marginRight: 10,
+  //             padding: 8,
+  //           }}
+  //           zDepth={1}
+  //         >
+  //            Home
+  //         </Paper>
+  // }
   redirectTo() {
     let url = this.props.url;
 
@@ -63,8 +67,19 @@ export default class Bridge extends React.Component {
     }
     window.location = url;
   }
-  renderNoItem() {
-    return (<div> 없는 페이지 입니다 </div>);
+  
+  loadingRender() {
+    let renderResult = null;
+
+    if (! this.props.subsReady) {
+      // First loading
+      renderResult = <CircularProgress size={1.5} />;
+    } else {
+      // Fully loaded
+      renderResult = (this.props.url !== '') ? this.renderRedirectGuide() : this.renderNoItem();
+    }
+    
+    return renderResult;
   }
   renderRedirectGuide() {
     return (
@@ -74,24 +89,22 @@ export default class Bridge extends React.Component {
           // borderStyle: 'solid',
           // borderWidth: 1,
           // borderColor: Styles.Colors.grey300,
-
         }}
       >
         <Paper zDepth={1}>
           <ListItem
             primaryText={this.props.title}
+            onTouchTap={() => this.redirectTo()}
             leftAvatar={
               <Avatar
                 size={40}
                 color={'rgba(255, 255, 255, 1)'}
-                backgroundColor={this.getCommunityColor(this.props.communityName)}
+                backgroundColor={this.getCommunityColor(this.props.params.communityName)}
               >
-              { this.props.communityName.charAt(0).toUpperCase()}
+                { this.props.params.communityName.charAt(0).toUpperCase()}
               </Avatar>}
-            onTouchTap={() => this.redirectTo()}
           />
         </Paper>
-        
         <div
           style={{
             marginTop: 4,
@@ -106,27 +119,21 @@ export default class Bridge extends React.Component {
             marginTop: 8,
             display: 'flex',
             // justifyContent: 'center',
-
           }}
         >
           <div onTouchTap={() => this.shareKakao()}>
             <img
               width="40px"
               height="40px"
-              src="http://dn.api1.kage.kakao.co.kr/14/dn/btqa9B90G1b/GESkkYjKCwJdYOkLvIBKZ0/o.jpg" />
+              src="http://dn.api1.kage.kakao.co.kr/14/dn/btqa9B90G1b/GESkkYjKCwJdYOkLvIBKZ0/o.jpg"
+            />
           </div>
         </div>
       </div>
     );
   }
-  loadingRender() {
-    let renderResult;
-    if (this.state.urlLoaded) {
-      renderResult = (this.props.url !== '') ? this.renderRedirectGuide() : this.renderNoItem();
-    } else {
-      renderResult = <CircularProgress size={1.5} />;
-    }
-    return renderResult;
+  renderNoItem() {
+    return (<div> 없는 페이지 입니다 </div>);
   }
   render() {
     return (
@@ -145,9 +152,12 @@ export default class Bridge extends React.Component {
 }
 
 Bridge.propTypes = {
-  communityName: React.PropTypes.string.isRequired,
-  postId: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
+  // devMode: React.PropTypes.bool.isRequired,
+  // communityName: React.PropTypes.string.isRequired,
+  // postId: React.PropTypes.string.isRequired,
+  // type: React.PropTypes.string.isRequired,
+  params: React.PropTypes.object.isRequired,
   url: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
+  subsReady: React.PropTypes.bool.isRequired,
 };

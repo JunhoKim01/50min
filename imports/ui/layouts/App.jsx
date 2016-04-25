@@ -60,7 +60,7 @@ export default class App extends React.Component {
     const communityName = this.props.communityName;
     const postId = this.props.postId;
     const type = this.props.type;
-    if ((type !== 'default') && (communityName !== 'default') && (postId !== 0)) {
+    if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
       // No loadMore button
       renderResult = null;
     } else {
@@ -101,6 +101,7 @@ export default class App extends React.Component {
               postId: this.props.postId,
               pageNumberArr: this.state.pageNumber,
               tabIndex: this.state.tabIndex,
+              devMode: this.props.devMode,
             }}
           />
       </div>
@@ -112,4 +113,5 @@ App.propTypes = {
   type: React.PropTypes.string.isRequired,
   communityName: React.PropTypes.string.isRequired,
   postId: React.PropTypes.string.isRequired,
+  devMode: React.PropTypes.bool.isRequired,
 };

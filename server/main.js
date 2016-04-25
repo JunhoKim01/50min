@@ -20,54 +20,52 @@ Meteor.startup(() => {
   options.todayhumor = Meteor.call('getCommunityScrapOption', 'todayhumor');
 
   // Start community scraper
-  // communityScraper.scrapStart(
-  // 'clien',
-  // options.clien,
-  // (thisOptions, resultArr) => {
-  // Meteor.call('saveItems', resultArr);  // Save items
-  // Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  // }
-  // );
-  // communityScraper.scrapStart(
-  //   'ruliweb',
-  //   options.ruliweb,
-  //   (thisOptions, resultArr) => {
-  //     Meteor.call('saveItems', resultArr);  // Save items
-  //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  //   }
-  // );
-  // communityScraper.scrapStart(
-  //   'bestiz',
-  //   options.bestiz,
-  //   (thisOptions, resultArr) => {
-  //     Meteor.call('saveItems', resultArr);  // Save items
-  //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  //   }
-  // );
-  // communityScraper.scrapStart(
-  //   'pgr21',
-  //   options.pgr21,
-  //   (thisOptions, resultArr) => {
-  //     Meteor.call('saveItems', resultArr);  // Save items
-  //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  //   }
-  // );
-  // communityScraper.scrapStart(
-  //   'mlbpark',
-  //   options.mlbpark,
-  //   (thisOptions, resultArr) => {
-  //     Meteor.call('saveItems', resultArr);  // Save items
-  //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  //   }
-  // );
-  // communityScraper.scrapStart(
-  //   'todayhumor',
-  //   options.todayhumor,
-  //   (thisOptions, resultArr) => {
-  //     Meteor.call('saveItems', resultArr);  // Save items
-  //     Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  //   }
-  // );
-
-
+  communityScraper.scrapStart(
+  'clien',
+  options.clien,
+  (thisOptions, resultArr) => {
+  Meteor.call('saveItems', resultArr);  // Save items
+  Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+  }
+  );
+  communityScraper.scrapStart(
+    'ruliweb',
+    options.ruliweb,
+    (thisOptions, resultArr) => {
+      Meteor.call('saveItems', resultArr);  // Save items
+      Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    }
+  );
+  communityScraper.scrapStart(
+    'bestiz',
+    options.bestiz,
+    (thisOptions, resultArr) => {
+      Meteor.call('saveItems', resultArr);  // Save items
+      Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    }
+  );
+  communityScraper.scrapStart(
+    'pgr21',
+    options.pgr21,
+    (thisOptions, resultArr) => {
+      Meteor.call('saveItems', resultArr);  // Save items
+      Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    }
+  );
+  communityScraper.scrapStart(
+    'mlbpark',
+    options.mlbpark,
+    (thisOptions, resultArr) => {
+      Meteor.call('saveItems', resultArr);  // Save items
+      Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    }
+  );
+  communityScraper.scrapStart(
+    'todayhumor',
+    options.todayhumor,
+    (thisOptions, resultArr) => {
+      Meteor.call('saveItems', resultArr);  // Save items
+      Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    }
+  );
 });

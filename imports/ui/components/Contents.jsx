@@ -5,7 +5,7 @@ import LoadingMore from './LoadingMore.jsx';
 import Loading from './Loading.jsx';
 import NoData from './NoData.jsx';
 import Item from './Item.jsx';
-import Bridge from './Bridge.jsx';
+import BridgeContainer from '../containers/BridgeContainer.jsx';
 
 // const LOAD_COUNTER_INIT = 20;
 // const LOAD_COUNTER_ADD = 20;
@@ -36,6 +36,7 @@ export default class Contents extends React.Component {
             communityName={item.communityName}
             postId={item.itemId}
             createdAt={item.createdAt}
+            devMode={this.props.devMode}
           />);
   }
   renderTabContents(type) {
@@ -99,12 +100,13 @@ export default class Contents extends React.Component {
     if ((type !== 'default') && (communityName !== 'default') && (postId !== 0)) {
       // if CommnunityName & postId were given, render Bridge page
       renderResult = (
-        <Bridge
-          communityName={communityName}
-          postId={postId}
-          type={type}
-          url={this.props.bridgeUrl}
-          title={this.props.bridgeTitle}
+        <BridgeContainer
+          params={{
+            communityName,
+            postId,
+            type,
+            devMode: this.props.devMode,
+          }}
         />);
     } else {
       switch (this.state.tabIndex) {
@@ -127,12 +129,11 @@ export default class Contents extends React.Component {
 }
 
 Contents.propTypes = {
+  devMode: React.PropTypes.bool.isRequired,
   communityName: React.PropTypes.string.isRequired,
   postId: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,
   tabIndex: React.PropTypes.number.isRequired,
-  bridgeUrl: React.PropTypes.string.isRequired,
-  bridgeTitle: React.PropTypes.string.isRequired,
   listsJPG: React.PropTypes.array.isRequired,
   listsGIF: React.PropTypes.array.isRequired,
   listsAVI: React.PropTypes.array.isRequired,

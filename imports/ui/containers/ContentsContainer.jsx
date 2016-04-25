@@ -5,7 +5,7 @@ import Contents from '../components/Contents.jsx';
 
 
 export default createContainer(({ params }) => {
-  const { type, communityName, postId, pageNumberArr, tabIndex } = params;
+  const { type, communityName, postId, pageNumberArr, tabIndex, devMode } = params;
   
   const LOAD_COUNTER = 5;
   const postsCounter = {
@@ -14,29 +14,10 @@ export default createContainer(({ params }) => {
     avi: LOAD_COUNTER * pageNumberArr[2],
   };
   const subHandles = [
-    Meteor.subscribe('scrapJPG', postsCounter.jpg),
-    Meteor.subscribe('scrapGIF', postsCounter.gif),
-    Meteor.subscribe('scrapAVI', postsCounter.avi),
+    Meteor.subscribe('scrapJPG', postsCounter.jpg, null),
+    Meteor.subscribe('scrapGIF', postsCounter.gif, null),
+    Meteor.subscribe('scrapAVI', postsCounter.avi, null),
   ];
-  // if (pageNumberArr) {
-  //   console.log(postsCounter);
-  // }
-  let bridgeUrl = '';
-  let bridgeTitle = '';
-  if ((communityName !== 'default') && (postId !== '0') && type !== 'default') {
-    let item;
-    if (type === 'jpg') {
-      item = ScrapJPG.findOne({ itemId: `${communityName}.${postId}` });
-    } else if (type === 'gif') {
-      item = ScrapGIF.findOne({ itemId: `${communityName}.${postId}` });
-    } else if (type === 'avi') {
-      item = ScrapAVI.findOne({ itemId: `${communityName}.${postId}` });
-    } else {
-      item = undefined;
-    }
-    bridgeUrl = item ? item.postUrl : '';
-    bridgeTitle = item ? item.title : '';
-  }
   
   return {
     subsReadyJPG: subHandles[0].ready(),
@@ -49,7 +30,6 @@ export default createContainer(({ params }) => {
     tabIndex,
     communityName,
     postId,
-    bridgeUrl,
-    bridgeTitle,
+    devMode,
   };
 }, Contents);

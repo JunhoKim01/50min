@@ -13,10 +13,12 @@ export default createContainer(({ params }) => {
   // if (pageNumber) {
   //   console.log(`pageNumber : ${pageNumber}`);
   // }
+  const devMode = true;
   
   return {
     type,
     communityName,
     postId,
+    devMode,
   };
 }, App);

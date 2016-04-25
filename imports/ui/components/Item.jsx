@@ -8,6 +8,9 @@ import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Styles from 'material-ui/lib/styles';
 
+const productionUrl = 'https://meteor-50min.herokuapp.com';
+const developUrl = 'http://192.168.1.60:3000';
+
 const itemStyle = {
   paddingTop: 8,
   paddingBottm: 8,
@@ -24,6 +27,7 @@ export default class Item extends React.Component {
     super(props);
     this.state = {
       sharingPlatform: null,
+      appUrl: this.props.devMode ? developUrl : productionUrl,
     };
   }
   getCommunityColor(source) {
@@ -50,14 +54,17 @@ export default class Item extends React.Component {
     window.location = url;
   }
   sharingItemOnChange(platform) {
+    const postId = this.props.postId.slice(this.props.postId.indexOf('.') + 1);
+
     if (platform === 'kakao') {
       const content = {
-        label: '50min에서 공유',
-        webLink: {
-          text: this.props.title,
-          url: `https://meteor-50min.herokuapp.com/${this.props.type}/${this.props.communityName}/${this.props.postId}`,
+        label: this.props.title,
+        webButton: {
+          text: '50min에서 보기',
+          url: `${this.state.appUrl}/${this.props.type}/${this.props.communityName}/${postId}`,
         },
       };
+      console.log(content);
       Kakao.Link.sendTalkLink(content);
     } else if (platform === 'facebook') {
       // Facebook
@@ -117,4 +124,5 @@ Item.propTypes = {
   postId: React.PropTypes.string.isRequired,
   communityName: React.PropTypes.string.isRequired,
   createdAt: React.PropTypes.number.isRequired,
+  devMode: React.PropTypes.bool.isRequired,
 };
