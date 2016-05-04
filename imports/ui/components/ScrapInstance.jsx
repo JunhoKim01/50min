@@ -19,7 +19,7 @@ export default class ScrapInstance extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      isSnackbarOpen: false,
       snackbarMessage: '',
       intervalMin: this.props.intervalMin,
       lastPage: this.props.lastPage,
@@ -28,10 +28,10 @@ export default class ScrapInstance extends React.Component {
     };
   }
   snackbarOpener() {
-    this.setState({ open: true });
+    this.setState({ isSnackbarOpen: true });
   }
   snackbarCloser() {
-    this.setState({ open: false });
+    this.setState({ isSnackbarOpen: false });
   }
   instanceStart() {
     // Start the scrap instance
@@ -94,7 +94,7 @@ export default class ScrapInstance extends React.Component {
                 Scraps every :
                 <SelectField
                   value={this.state.intervalMin}
-                  onChange={this.intervalMinChange}
+                  onChange={(event, index, value) => this.intervalMinChange(event, index, value)}
                 >
                   <MenuItem value={1} primaryText="1 minute" />
                   <MenuItem value={5} primaryText="5 minutes" />
@@ -108,7 +108,7 @@ export default class ScrapInstance extends React.Component {
                 Scraps to :
                 <SelectField
                   value={this.state.lastPage}
-                  onChange={this.lastPageChange}
+                  onChange={(event, index, value) => this.lastPageChange(event, index, value)}
                 >
                   <MenuItem value={1} primaryText="1 page" />
                   <MenuItem value={2} primaryText="2 page" />
@@ -122,16 +122,16 @@ export default class ScrapInstance extends React.Component {
             <div>Total items : {this.counterRenderer()} </div>
         </CardText>
         <CardActions style={{ display: 'flex', justifyContent: 'spaceBetween' }}>
-          <FlatButton label="Save & Go" onClick={this.instanceSave} />
+          <FlatButton label="Save & Go" onClick={() => this.instanceSave()} />
           <FlatButton label="Start" />
-          <FlatButton label="Stop" onClick={this.instanceStop} />
+          <FlatButton label="Stop" onClick={() => this.instanceStop()} />
         </CardActions>
       </Card>
       <Snackbar
-        open={this.state.open}
+        open={this.state.isSnackbarOpen}
         message={this.state.snackbarMessage}
         autoHideDuration={3000}
-        onRequestClose={this.snackbarCloser}
+        onRequestClose={() => this.snackbarCloser()}
         style={{ width: 'maxContent' }}
       />
       </div>

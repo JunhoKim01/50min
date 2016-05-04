@@ -15,7 +15,7 @@ Meteor.startup(() => {
   }
   moment.locale(locale);
   // Check if user agent is mobile
-  isMobile = mobileChecker();
+  window.isMobile = mobileChecker();
 
   // App redner using routes
   render(renderRoutes(), document.getElementById('render-target'));

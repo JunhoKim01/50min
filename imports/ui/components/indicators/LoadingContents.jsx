@@ -1,7 +1,7 @@
 import React from 'react';
 import CircularProgress from 'material-ui/lib/circular-progress';
   
-export default class Loading extends React.Component {
+export default class LoadingContents extends React.Component {
   render() {
     return (
       <div

@@ -5,9 +5,9 @@ import Contents from '../components/Contents.jsx';
 
 
 export default createContainer(({ params }) => {
-  const { type, communityName, postId, pageNumberArr, tabIndex, devMode } = params;
+  const { type, communityName, postId, pageNumberArr, tabIndex, devMode, contentsLoadingComplete } = params;
   
-  const LOAD_COUNTER = 5;
+  const LOAD_COUNTER = 20;
   const postsCounter = {
     jpg: LOAD_COUNTER * pageNumberArr[0],
     gif: LOAD_COUNTER * pageNumberArr[1],
@@ -31,5 +31,6 @@ export default createContainer(({ params }) => {
     communityName,
     postId,
     devMode,
+    contentsLoadingComplete,
   };
 }, Contents);

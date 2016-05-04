@@ -3,8 +3,8 @@ import React from 'react';
 import AppBar from 'material-ui/lib/app-bar';
 import FlatButton from 'material-ui/lib/flat-button';
 
-import Loading from './Loading.jsx';
-import NoData from './NoData.jsx';
+import LoadingContents from './indicators/LoadingContents.jsx';
+import NoData from './indicators/NoData.jsx';
 import ScrapInstance from './ScrapInstance.jsx';
 
 export default class Admin extends React.Component {
@@ -12,18 +12,19 @@ export default class Admin extends React.Component {
     Meteor.call('remove');
   }
   instancesRenderer() {
+    const communityInstances = this.props.instances;
     return (
-      this.props.instances.map((instance) =>
+      communityInstances.map((instance) =>
         <ScrapInstance
           key={instance._id}
           communityName={instance.communityName}
-          types={instance.types}
+          intervalMin={instance.intervalMin}
           status={instance.status}
           startTime={instance.startTime}
-          // regexp={instance.regexp}
-          intervalMin={instance.intervalMin}
           lastPage={instance.lastPage}
           totalItemCount={instance.itemCount}
+          // types={instance.types}
+          // regexp={instance.regexp}
         />
       ));
   }
@@ -31,7 +32,7 @@ export default class Admin extends React.Component {
     let renderResult = null;
     if (! this.props.instancesReady && (this.props.instances.length === 0)) {
       // First loading
-      renderResult = <Loading />;
+      renderResult = <LoadingContents />;
     } else if (this.props.instancesReady && (this.props.instances.length === 0)) {
       // No-data
       renderResult = <NoData />;

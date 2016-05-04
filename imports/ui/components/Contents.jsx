@@ -1,21 +1,19 @@
 import React from 'react';
 import List from 'material-ui/lib/lists/list';
 
-import LoadingMore from './LoadingMore.jsx';
-import Loading from './Loading.jsx';
-import NoData from './NoData.jsx';
+
+import LoadingMoreContents from './indicators/LoadingMoreContents.jsx';
+import LoadingContents from './indicators/LoadingContents.jsx';
+import NoData from './indicators/NoData.jsx';
 import Item from './Item.jsx';
 import BridgeContainer from '../containers/BridgeContainer.jsx';
-
-// const LOAD_COUNTER_INIT = 20;
-// const LOAD_COUNTER_ADD = 20;
 
 export default class Contents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tabIndex: this.props.tabIndex,
-      // pageNumber: this.props.pageNumber,
+      pageNumber: [1, 1, 1],
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -23,11 +21,12 @@ export default class Contents extends React.Component {
       tabIndex: nextProps.tabIndex,
     };
   }
-  renderItems(lists) {
-    if (lists === undefined) {
+ 
+  renderEachItems(itemList) {
+    if (itemList === undefined) {
       throw new Meteor.Error('database undefined');
     }
-    return lists.map((item) =>
+    return itemList.map((item) =>
           <Item
             key={item._id}
             title={item.title}
@@ -39,7 +38,7 @@ export default class Contents extends React.Component {
             devMode={this.props.devMode}
           />);
   }
-  renderTabContents(type) {
+  renderContents(type) {
     let renderResult = null;
     let scrapHandle = null;
     let scrapDB = null;
@@ -63,27 +62,28 @@ export default class Contents extends React.Component {
 
     // render
     if (! scrapHandle && (scrapDB.length === 0)) {
-      // First loading
-      renderResult = <Loading />;
+      // Loading contents for the first time
+      renderResult = <LoadingContents />;
     } else if (scrapHandle && (scrapDB.length === 0)) {
       // No-data
       renderResult = <NoData />;
     } else if (! scrapHandle && (scrapDB.length !== 0)) {
-      // Loading more
+      // Loading more contents
       renderResult = (
         <div>
-          <List>
-            {this.renderItems(scrapDB)}
+          <List style={{ paddingTop: 0 }}>
+            {this.renderEachItems(scrapDB)}
           </List>
-          <LoadingMore />
+          <LoadingMoreContents />
         </div>
       );
     } else if (scrapHandle && (scrapDB.length !== 0)) {
       // Load complete
+      this.props.contentsLoadingComplete();
       renderResult = (
         <div>
-          <List>
-            {this.renderItems(scrapDB)}
+          <List style={{ paddingTop: 0 }}>
+            {this.renderEachItems(scrapDB)}
           </List>
           
         </div>
@@ -111,13 +111,13 @@ export default class Contents extends React.Component {
     } else {
       switch (this.state.tabIndex) {
         case 0:
-          renderResult = this.renderTabContents('jpg');
+          renderResult = this.renderContents('jpg');
           break;
         case 1:
-          renderResult = this.renderTabContents('gif');
+          renderResult = this.renderContents('gif');
           break;
         case 2:
-          renderResult = this.renderTabContents('avi');
+          renderResult = this.renderContents('avi');
           break;
         default:
           renderResult = (<div> ERROR! </div>);
@@ -129,15 +129,16 @@ export default class Contents extends React.Component {
 }
 
 Contents.propTypes = {
-  devMode: React.PropTypes.bool.isRequired,
-  communityName: React.PropTypes.string.isRequired,
-  postId: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-  tabIndex: React.PropTypes.number.isRequired,
   listsJPG: React.PropTypes.array.isRequired,
   listsGIF: React.PropTypes.array.isRequired,
   listsAVI: React.PropTypes.array.isRequired,
   subsReadyJPG: React.PropTypes.bool.isRequired,
   subsReadyGIF: React.PropTypes.bool.isRequired,
   subsReadyAVI: React.PropTypes.bool.isRequired,
+  type: React.PropTypes.string.isRequired,
+  tabIndex: React.PropTypes.number.isRequired,
+  communityName: React.PropTypes.string.isRequired,
+  postId: React.PropTypes.string.isRequired,
+  devMode: React.PropTypes.bool.isRequired,
+  contentsLoadingComplete: React.PropTypes.func.isRequired,
 };

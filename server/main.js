@@ -19,7 +19,7 @@ Meteor.startup(() => {
   options.mlbpark = Meteor.call('getCommunityScrapOption', 'mlbpark');
   options.todayhumor = Meteor.call('getCommunityScrapOption', 'todayhumor');
 
-  // Start community scraper
+  // // Start community scraper
   communityScraper.scrapStart(
   'clien',
   options.clien,

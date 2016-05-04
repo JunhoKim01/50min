@@ -3,7 +3,7 @@ import React from 'react';
 export default class AppNotFound extends React.Component {
   render() {
     return (
-      <div>Not found</div>
+      <div> 잘못!!! </div>
     );
   }
 }

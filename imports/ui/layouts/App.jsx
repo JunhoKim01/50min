@@ -5,9 +5,12 @@ injectTapEventPlugin();
 import AppBar from 'material-ui/lib/app-bar';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
+import ContentsContainer from '../containers/ContentsContainer.jsx';
+
 import RaisedButton from 'material-ui/lib/raised-button';
 
-import ContentsContainer from '../containers/ContentsContainer.jsx';
+import Theme from '../theme/theme.js';
+import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 
 
 export default class App extends React.Component {
@@ -16,9 +19,16 @@ export default class App extends React.Component {
     this.state = {
       tabIndex: 0,  // JPG
       pageNumber: [1, 1, 1],
+      devMode: false,
+      isContentsLoaded: true,
     };
     // Kakao
     Kakao.init('3b876b4179514d9878854e2c1ff1fc64');
+  }
+  getChildContext() {
+    return {
+      muiTheme: getMuiTheme(Theme),
+    };
   }
   getTabIndexByType(type) {
     let tabIndex = 0;
@@ -38,6 +48,12 @@ export default class App extends React.Component {
     }
     return tabIndex;
   }
+  contentsLoadingComplete() {
+    this.setState({
+      isContentsLoaded: true,
+    });
+    console.log(this.state.isContentsLoaded);
+  }
   tabHandler(tabIndex) {
     this.setState({
       tabIndex,
@@ -52,26 +68,31 @@ export default class App extends React.Component {
     pageNumberArr[this.state.tabIndex] += 1;
     this.setState({
       pageNumber: pageNumberArr,
+      isContentsLoaded: false,
     });
     // console.log(this.state.pageNumber);
   }
   loadMoreRender() {
     let renderResult = null;
-    const communityName = this.props.communityName;
-    const postId = this.props.postId;
-    const type = this.props.type;
+    const type = this.props.params.type || 'default';
+    const communityName = this.props.params.communityName || 'default';
+    const postId = this.props.params.postId || '0';
     if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
       // No loadMore button
       renderResult = null;
     } else {
-      // loadMore button
-      renderResult = (
-        <RaisedButton
-          fullWidth={true}
-          style={{ height: '48px' }}
-          label="더 보기..."
-          onTouchTap={() => this.loadMore()}
-        />);
+      if (this.state.isContentsLoaded) {
+        renderResult = (
+          <RaisedButton
+            fullWidth={true}
+            style={{ height: '48px' }}
+            label="더 보기..."
+            onTouchTap={() => this.loadMore()}
+          />);
+      } else {
+        // Contents loading...
+        renderResult = null;
+      }
     }
     return renderResult;
   }
@@ -81,6 +102,10 @@ export default class App extends React.Component {
       <div className="container">
         <AppBar
           title="50min"
+          titleStyle={{
+            // height: 48,
+            // lineHeight: '48px',
+          }}
           style={{ flexWrap: 'wrap' }}
         >
           <div style={{ width: '100%' }}>
@@ -94,24 +119,33 @@ export default class App extends React.Component {
             </Tabs>
           </div>
         </AppBar>
-          <ContentsContainer
-            params={{
-              type: this.props.type,
-              communityName: this.props.communityName,
-              postId: this.props.postId,
-              pageNumberArr: this.state.pageNumber,
-              tabIndex: this.state.tabIndex,
-              devMode: this.props.devMode,
-            }}
-          />
+        <ContentsContainer
+          params={{
+            type: this.props.params.type || 'default',
+            communityName: this.props.params.communityName || 'default',
+            postId: this.props.params.postId || '0',
+            pageNumberArr: this.state.pageNumber,
+            tabIndex: this.state.tabIndex,
+            devMode: this.state.devMode,
+            contentsLoadingComplete: () => this.contentsLoadingComplete,
+          }}
+        />
+        <div>
+          {this.loadMoreRender()}
+        </div>
       </div>
     );
   }
 }
 
+App.childContextTypes = {
+  muiTheme: React.PropTypes.object,
+};
+
 App.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  communityName: React.PropTypes.string.isRequired,
-  postId: React.PropTypes.string.isRequired,
-  devMode: React.PropTypes.bool.isRequired,
+  params: React.PropTypes.object.isRequired,
+  // type: React.PropTypes.string,
+  // communityName: React.PropTypes,
+  // postId: React.PropTypes.string,
+  // devMode: React.PropTypes.bool,
 };

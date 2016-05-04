@@ -10,17 +10,17 @@ import Styles from 'material-ui/lib/styles';
 
 const productionUrl = 'https://meteor-50min.herokuapp.com';
 const developUrl = 'http://192.168.1.60:3000';
+const kakaoImg = (
+      <img src="http://dn.api1.kage.kakao.co.kr/14/dn/btqa9B90G1b/GESkkYjKCwJdYOkLvIBKZ0/o.jpg" />);
 
-const itemStyle = {
-  paddingTop: 8,
-  paddingBottm: 8,
-};
-
- const iconButtonElement = (
+const iconButtonElement = (
       <IconButton>
           <MoreHorizIcon color={Styles.Colors.grey400} />
         </IconButton>
       );
+
+const tappedItemStyle = { fontSize: 14, backgroundColor: '#e0e0e0' };
+const untappedItemStyle = { fontSize: 14 };
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -28,6 +28,7 @@ export default class Item extends React.Component {
     this.state = {
       sharingPlatform: null,
       appUrl: this.props.devMode ? developUrl : productionUrl,
+      tapped: false,
     };
   }
   getCommunityColor(source) {
@@ -42,10 +43,13 @@ export default class Item extends React.Component {
     return communityColor[source];
   }
   redirectTo() {
+    this.setState({
+      tapped: true,
+    });
     let url = this.props.url;
 
     // Ruliweb mobile
-    if ((url.indexOf('ruliweb') > -1) && isMobile) {
+    if ((url.indexOf('ruliweb') > -1) && window.isMobile) {
       const position = url.indexOf('/ruliweb');
       const mobeilUrl
        = `${url.substr(0, position + 1)}mobile${url.substr(position)}`;
@@ -73,11 +77,7 @@ export default class Item extends React.Component {
     }
   }
   itemMenu() {
-    const kakaoImg = (
-      <img
-        
-        src="http://dn.api1.kage.kakao.co.kr/14/dn/btqa9B90G1b/GESkkYjKCwJdYOkLvIBKZ0/o.jpg"
-      />);
+    
     const RightIconMenu = (
       <IconMenu
         onChange={(event, value) => {this.sharingItemOnChange(value);}}
@@ -92,25 +92,34 @@ export default class Item extends React.Component {
         />
       </IconMenu>
       );
-
     return RightIconMenu;
   }
   render() {
+    const communityName = this.props.communityName;
     return (
       <ListItem
-        sytle={itemStyle}
+        style={ this.state.tapped ? tappedItemStyle : untappedItemStyle }
+        innerDivStyle={{
+          paddingTop: 16,
+          paddingBottom: 12,
+          paddingLeft: 68,
+        }}
+        // For disable touch ripples
+        disableFocusRipple={true}
+        disableTouchRipple={true}
+        disableKeyboardFocus={true}
         primaryText={this.props.title}
         leftAvatar={
           <Avatar
-            size={40}
+            size={36}
             color={'rgba(255, 255, 255, 1)'}
-            backgroundColor={this.getCommunityColor(this.props.communityName)}
-           // src={faviconSrc}
+            backgroundColor={this.getCommunityColor(communityName)}
           >
-          {this.props.communityName.charAt(0).toUpperCase()}
+          {communityName.charAt(0).toUpperCase()}
           </Avatar>}
         secondaryText={moment(this.props.createdAt).fromNow()}
         onTouchTap={() => this.redirectTo()}
+        // TODO: item share components (Layout error occurs if chage to component)
         rightIconButton={this.itemMenu()}
       />
     );

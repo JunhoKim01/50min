@@ -3,12 +3,10 @@ body {
   margin: 0px;
   min-height: 88vh; /* For prevent iOS Safari Blink where outisde of HTML 
                        (Strech body to 88% of view port)*/
-        
 }
-
 
 
 * {
   /* To prevent gray effect when click event fired on div.coulmn */
-  -webkit-tap-highlight-color: transparent;
+  /*-webkit-tap-highlight-color: transparent;*/
 }
