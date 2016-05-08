@@ -1,8 +1,7 @@
 import React from 'react';
 import List from 'material-ui/lib/lists/list';
 
-
-import LoadingMoreContents from './indicators/LoadingMoreContents.jsx';
+// import LoadingMoreContents from './indicators/LoadingMoreContents.jsx';
 import LoadingContents from './indicators/LoadingContents.jsx';
 import NoData from './indicators/NoData.jsx';
 import Item from './Item.jsx';
@@ -14,12 +13,59 @@ export default class Contents extends React.Component {
     this.state = {
       tabIndex: this.props.tabIndex,
       pageNumber: [1, 1, 1],
+      // State of the contents page
+      // 0 : Loading contents for the first time
+      // 1 : No-data
+      // 2 : Loading more contents
+      // 3 : Load complete
+      contentsState: 0,
     };
   }
   componentWillReceiveProps(nextProps) {
-    this.state = {
+    // console.log(nextProps);
+    this.setState({
       tabIndex: nextProps.tabIndex,
-    };
+    });
+    
+    switch (nextProps.tabIndex) {
+      case 0:
+        this.setContentsState(nextProps.subsReadyJPG, nextProps.listsJPG);
+        break;
+      case 1:
+        this.setContentsState(nextProps.subsReadyGIF, nextProps.listsGIF);
+        break;
+      case 2:
+        this.setContentsState(nextProps.subsReadyAVI, nextProps.listsAVI);
+        break;
+      default:
+        throw new Meteor.Error('INVALID tabIndex');
+    }
+  }
+  setContentsState(scrapHandle, scrapDB) {
+    if (! scrapHandle && (scrapDB.length === 0)) {
+      // Loading contents for the first time
+      this.setState({
+        contentsState: 0,
+      });
+    } else if (scrapHandle && (scrapDB.length === 0)) {
+      // No-data
+      this.setState({
+        contentsState: 1,
+      });
+    } else if (! scrapHandle && (scrapDB.length !== 0)) {
+      // Loading more contents
+      this.setState({
+        contentsState: 2,
+      });
+    } else if (scrapHandle && (scrapDB.length !== 0)) {
+      // Load complete
+      if (this.state.contentsState !== 3) {
+        this.props.contentsLoadingComplete();
+        this.setState({
+          contentsState: 3,
+        });
+      }
+    }
   }
  
   renderEachItems(itemList) {
@@ -38,58 +84,43 @@ export default class Contents extends React.Component {
             devMode={this.props.devMode}
           />);
   }
-  renderContents(type) {
+  renderContents(type, scrapDB) {
     let renderResult = null;
-    let scrapHandle = null;
-    let scrapDB = null;
-
-    switch (type) {
-      case 'jpg':
-        scrapHandle = this.props.subsReadyJPG;
-        scrapDB = this.props.listsJPG;
+    // console.log('render...');
+    // render
+    switch (this.state.contentsState) {
+      case 0:
+        // Loading contents for the first time
+        renderResult = <LoadingContents />;
         break;
-      case 'gif':
-        scrapHandle = this.props.subsReadyGIF;
-        scrapDB = this.props.listsGIF;
+      case 1:
+        // No-data
+        renderResult = <NoData />;
         break;
-      case 'avi':
-        scrapHandle = this.props.subsReadyAVI;
-        scrapDB = this.props.listsAVI;
+      case 2:
+        // Loading more contents
+        renderResult = (
+          <div>
+            <List style={{ paddingTop: 0 }}>
+              {this.renderEachItems(scrapDB)}
+            </List>
+            
+          </div>
+        );
+        break;
+      case 3:
+        // Load complete
+        renderResult = (
+          <div>
+            <List style={{ paddingTop: 0 }}>
+              {this.renderEachItems(scrapDB)}
+            </List>
+          </div>
+        );
         break;
       default:
-        throw Meteor.Error('INVALID type');
+        throw new Meteor.Error('INVALID contentsState');
     }
-
-    // render
-    if (! scrapHandle && (scrapDB.length === 0)) {
-      // Loading contents for the first time
-      renderResult = <LoadingContents />;
-    } else if (scrapHandle && (scrapDB.length === 0)) {
-      // No-data
-      renderResult = <NoData />;
-    } else if (! scrapHandle && (scrapDB.length !== 0)) {
-      // Loading more contents
-      renderResult = (
-        <div>
-          <List style={{ paddingTop: 0 }}>
-            {this.renderEachItems(scrapDB)}
-          </List>
-          <LoadingMoreContents />
-        </div>
-      );
-    } else if (scrapHandle && (scrapDB.length !== 0)) {
-      // Load complete
-      this.props.contentsLoadingComplete();
-      renderResult = (
-        <div>
-          <List style={{ paddingTop: 0 }}>
-            {this.renderEachItems(scrapDB)}
-          </List>
-          
-        </div>
-      );
-    }
-
     return renderResult;
   }
   render() {
@@ -111,13 +142,13 @@ export default class Contents extends React.Component {
     } else {
       switch (this.state.tabIndex) {
         case 0:
-          renderResult = this.renderContents('jpg');
+          renderResult = this.renderContents('jpg', this.props.listsJPG);
           break;
         case 1:
-          renderResult = this.renderContents('gif');
+          renderResult = this.renderContents('gif', this.props.listsGIF);
           break;
         case 2:
-          renderResult = this.renderContents('avi');
+          renderResult = this.renderContents('avi', this.props.listsAVI);
           break;
         default:
           renderResult = (<div> ERROR! </div>);

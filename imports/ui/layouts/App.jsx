@@ -5,9 +5,10 @@ injectTapEventPlugin();
 import AppBar from 'material-ui/lib/app-bar';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from 'material-ui/lib/tabs/tab';
-import ContentsContainer from '../containers/ContentsContainer.jsx';
-
 import RaisedButton from 'material-ui/lib/raised-button';
+
+import LoadingMoreContents from '../components/indicators/LoadingMoreContents.jsx';
+import ContentsContainer from '../containers/ContentsContainer.jsx';
 
 import Theme from '../theme/theme.js';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
@@ -20,9 +21,10 @@ export default class App extends React.Component {
       tabIndex: 0,  // JPG
       pageNumber: [1, 1, 1],
       devMode: false,
+      isBridge: false,
       isContentsLoaded: true,
     };
-    // Kakao
+    // Kakao init
     Kakao.init('3b876b4179514d9878854e2c1ff1fc64');
   }
   getChildContext() {
@@ -48,11 +50,23 @@ export default class App extends React.Component {
     }
     return tabIndex;
   }
+  setBridgeState() {
+    const type = this.props.params.type || 'default';
+    const communityName = this.props.params.communityName || 'default';
+    const postId = this.props.params.postId || '0';
+    if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
+      // Bridge
+      this.setState({ isBridge: true });
+    } else {
+      // Contents
+      this.setState({ isBridge: false });
+    }
+  }
   contentsLoadingComplete() {
+    console.log('complete');
     this.setState({
       isContentsLoaded: true,
     });
-    console.log(this.state.isContentsLoaded);
   }
   tabHandler(tabIndex) {
     this.setState({
@@ -70,18 +84,16 @@ export default class App extends React.Component {
       pageNumber: pageNumberArr,
       isContentsLoaded: false,
     });
-    // console.log(this.state.pageNumber);
   }
   loadMoreRender() {
     let renderResult = null;
-    const type = this.props.params.type || 'default';
-    const communityName = this.props.params.communityName || 'default';
-    const postId = this.props.params.postId || '0';
-    if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
-      // No loadMore button
+    if (this.state.isBridge) {
+      // Bridge --> No loadMore button
       renderResult = null;
     } else {
+      // Contents
       if (this.state.isContentsLoaded) {
+        // Contents load complete
         renderResult = (
           <RaisedButton
             fullWidth={true}
@@ -90,8 +102,15 @@ export default class App extends React.Component {
             onTouchTap={() => this.loadMore()}
           />);
       } else {
-        // Contents loading...
-        renderResult = null;
+        // Contents are loading...
+        renderResult = <LoadingMoreContents />;
+        // renderResult = (
+        //   <RaisedButton
+        //     fullWidth={true}
+        //     style={{ height: '48px' }}
+        //     label="더 보기..."
+        //     onTouchTap={() => this.loadMore()}
+        //   />);
       }
     }
     return renderResult;
@@ -127,7 +146,7 @@ export default class App extends React.Component {
             pageNumberArr: this.state.pageNumber,
             tabIndex: this.state.tabIndex,
             devMode: this.state.devMode,
-            contentsLoadingComplete: () => this.contentsLoadingComplete,
+            contentsLoadingComplete: () => this.contentsLoadingComplete(),
           }}
         />
         <div>
