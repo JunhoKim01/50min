@@ -13,7 +13,7 @@ export default createContainer(({ params }) => {
   // if (pageNumber) {
   //   console.log(`pageNumber : ${pageNumber}`);
   // }
-  const devMode = true;
+  const devMode = false;
   
   return {
     type,

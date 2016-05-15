@@ -128,7 +128,7 @@ export default class Contents extends React.Component {
     const communityName = this.props.communityName;
     const postId = this.props.postId;
     const type = this.props.type;
-    if ((type !== 'default') && (communityName !== 'default') && (postId !== 0)) {
+    if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
       // if CommnunityName & postId were given, render Bridge page
       renderResult = (
         <BridgeContainer

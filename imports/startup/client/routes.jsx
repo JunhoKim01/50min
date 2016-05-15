@@ -11,6 +11,7 @@ export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App} />
     <Route path="/:type/:communityName/:postId" component={App} />
+    <Route path="/:type/" component={App} />
     <Route path="/admin" component={AdminPage} />
     <Route path="*" component={AppNotFound} />
   </Router>

@@ -18,10 +18,10 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabIndex: 0,  // JPG
+      tabIndex: this.setTabIndex(),  // JPG
       pageNumber: [1, 1, 1],
       devMode: false,
-      isBridge: false,
+      isBridge: this.setBridgeState(),
       isContentsLoaded: true,
     };
     // Kakao init
@@ -50,20 +50,34 @@ export default class App extends React.Component {
     }
     return tabIndex;
   }
+  setTabIndex() {
+    const type = this.props.params.type || 'default';
+    if (type === 'default' || type === 'jpg') {
+      return 0;
+    } else if (type === 'gif') {
+      return 1;
+    } else if (type === 'avi') {
+      return 2;
+    }
+    // Wrong url goes to default type jpg
+    return 0;
+  }
   setBridgeState() {
     const type = this.props.params.type || 'default';
     const communityName = this.props.params.communityName || 'default';
     const postId = this.props.params.postId || '0';
     if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
       // Bridge
-      this.setState({ isBridge: true });
+      return true;
+      // this.setState({ isBridge: true });
     } else {
       // Contents
-      this.setState({ isBridge: false });
+      return false;
+      // this.setState({ isBridge: false });
     }
   }
   contentsLoadingComplete() {
-    console.log('complete');
+    // console.log('complete');
     this.setState({
       isContentsLoaded: true,
     });
@@ -72,7 +86,16 @@ export default class App extends React.Component {
     this.setState({
       tabIndex,
     });
-
+    // From Brige to Contents
+    if (this.state.isBridge) {
+      if (tabIndex === 0) {
+        window.location = '/jpg/';
+      } else if (tabIndex === 1) {
+        window.location = '/gif/';
+      } else if (tabIndex === 2) {
+        window.location = '/avi/';
+      }
+    }
     // console.log(tabIndex);
     // Reset counter
     // this.loadCounterReset(tabIndex);
@@ -125,6 +148,7 @@ export default class App extends React.Component {
             // height: 48,
             // lineHeight: '48px',
           }}
+          onTitleTouchTap={() => {window.location = '/';}}
           style={{ flexWrap: 'wrap' }}
         >
           <div style={{ width: '100%' }}>
