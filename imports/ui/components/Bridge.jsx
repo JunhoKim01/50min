@@ -10,7 +10,7 @@ const developUrl = 'http://192.168.1.60:3000';
 
 export default class Bridge extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = {
       appUrl: this.props.params.devMode ? developUrl : productionUrl,
     };

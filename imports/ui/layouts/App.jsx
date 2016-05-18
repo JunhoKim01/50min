@@ -13,6 +13,7 @@ import ContentsContainer from '../containers/ContentsContainer.jsx';
 import Theme from '../theme/theme.js';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 
+import { browserHistory } from 'react-router';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -89,11 +90,14 @@ export default class App extends React.Component {
     // From Brige to Contents
     if (this.state.isBridge) {
       if (tabIndex === 0) {
-        window.location = '/jpg/';
+        // window.location = '/jpg/';
+        browserHistory.replace('/jpg/'); // Push the current tab to locale history
       } else if (tabIndex === 1) {
-        window.location = '/gif/';
+        // window.location = '/gif/';
+        browserHistory.replace('/gif/'); // Push the current tab to locale history
       } else if (tabIndex === 2) {
-        window.location = '/avi/';
+        // window.location = '/avi/';
+        browserHistory.replace('/avi/'); // Push the current tab to locale history
       }
     }
     // console.log(tabIndex);
