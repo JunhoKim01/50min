@@ -7,6 +7,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Styles from 'material-ui/lib/styles';
+import { browserHistory } from 'react-router';
 
 const productionUrl = 'https://meteor-50min.herokuapp.com';
 const developUrl = 'http://192.168.1.60:3000';
@@ -43,6 +44,7 @@ export default class Item extends React.Component {
     return communityColor[source];
   }
   redirectTo() {
+    browserHistory.push(`/${this.props.type}/`); // Push the current tab to locale history
     this.setState({
       tapped: true,
     });
