@@ -152,7 +152,11 @@ export default class App extends React.Component {
             // height: 48,
             // lineHeight: '48px',
           }}
-          onTitleTouchTap={() => {window.location = '/';}}
+          onTitleTouchTap={() => {
+            if (this.state.isBridge) {
+              window.location = '/';
+            }
+          }}
           style={{ flexWrap: 'wrap' }}
         >
           <div style={{ width: '100%' }}>
