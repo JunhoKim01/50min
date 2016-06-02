@@ -12,15 +12,9 @@ export default class Bridge extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      appUrl: this.props.params.devMode ? developUrl : productionUrl,
+      appUrl: this.props.devMode ? developUrl : productionUrl,
     };
   }
-  // componentWillReceiveProps(nextProps) {
-  //   // this.setState({
-      
-  //   // });
-  //   console.log(nextProps);
-  // }
   getCommunityColor(source) {
     const communityColor = {
       clien: 'rgba(55, 66, 115, 1)',
@@ -37,7 +31,7 @@ export default class Bridge extends React.Component {
       label: this.props.title,
       webButton: {
         text: '50min에서 보기',
-        url: `${this.state.appUrl}/${this.props.params.type}/${this.props.params.communityName}/${this.props.params.postId}`,
+        url: `${this.state.appUrl}/pick/${this.props.pickId}`,
       },
     };
     Kakao.Link.sendTalkLink(content);
@@ -99,9 +93,9 @@ export default class Bridge extends React.Component {
               <Avatar
                 size={40}
                 color={'rgba(255, 255, 255, 1)'}
-                backgroundColor={this.getCommunityColor(this.props.params.communityName)}
+                backgroundColor={this.getCommunityColor(this.props.communityName)}
               >
-                { this.props.params.communityName.charAt(0).toUpperCase()}
+                { this.props.communityName.charAt(0).toUpperCase()}
               </Avatar>}
           />
         </Paper>
@@ -152,11 +146,11 @@ export default class Bridge extends React.Component {
 }
 
 Bridge.propTypes = {
-  // devMode: React.PropTypes.bool.isRequired,
-  // communityName: React.PropTypes.string.isRequired,
-  // postId: React.PropTypes.string.isRequired,
+  devMode: React.PropTypes.bool.isRequired,
+  communityName: React.PropTypes.string.isRequired,
+  pickId: React.PropTypes.string.isRequired,
   // type: React.PropTypes.string.isRequired,
-  params: React.PropTypes.object.isRequired,
+  // params: React.PropTypes.object.isRequired,
   url: React.PropTypes.string.isRequired,
   title: React.PropTypes.string.isRequired,
   subsReady: React.PropTypes.bool.isRequired,

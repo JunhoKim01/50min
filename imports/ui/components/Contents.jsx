@@ -12,7 +12,7 @@ export default class Contents extends React.Component {
     super(props);
     this.state = {
       tabIndex: this.props.tabIndex,
-      pageNumber: [1, 1, 1],
+      pageNumber: [1, 1, 1, 1],
       // State of the contents page
       // 0 : Loading contents for the first time
       // 1 : No-data
@@ -28,14 +28,11 @@ export default class Contents extends React.Component {
     });
     
     switch (nextProps.tabIndex) {
-      case 0:
-        this.setContentsState(nextProps.subsReadyJPG, nextProps.listsJPG);
+      case 0: // Pick
+        this.setContentsState(nextProps.subsReadyPicks, nextProps.listsPicks);
         break;
-      case 1:
-        this.setContentsState(nextProps.subsReadyGIF, nextProps.listsGIF);
-        break;
-      case 2:
-        this.setContentsState(nextProps.subsReadyAVI, nextProps.listsAVI);
+      case 1: // Trend
+        // this.setContentsState(nextProps.subsReadyTrendss, nextProps.listsTrends);
         break;
       default:
         throw new Meteor.Error('INVALID tabIndex');
@@ -84,7 +81,7 @@ export default class Contents extends React.Component {
             devMode={this.props.devMode}
           />);
   }
-  renderContents(type, scrapDB) {
+  renderContents(category, scrapDB) {
     let renderResult = null;
     // console.log('render...');
     // render
@@ -125,30 +122,24 @@ export default class Contents extends React.Component {
   }
   render() {
     let renderResult = null;
-    const communityName = this.props.communityName;
-    const postId = this.props.postId;
-    const type = this.props.type;
-    if ((type !== 'default') && (communityName !== 'default') && (postId !== '0')) {
-      // if CommnunityName & postId were given, render Bridge page
+    const pickId = this.props.pickId || '0';
+    if ((pickId !== '0')) {
+      // if pickId is given, render Bridge page
       renderResult = (
         <BridgeContainer
           params={{
-            communityName,
-            postId,
-            type,
+            pickId,
             devMode: this.props.devMode,
           }}
         />);
     } else {
       switch (this.state.tabIndex) {
-        case 0:
-          renderResult = this.renderContents('jpg', this.props.listsJPG);
+        case 0: // Picks
+          renderResult = this.renderContents('pick', this.props.listsPicks);
           break;
-        case 1:
-          renderResult = this.renderContents('gif', this.props.listsGIF);
-          break;
-        case 2:
-          renderResult = this.renderContents('avi', this.props.listsAVI);
+        case 1: // Trends
+          // renderResult = this.renderContents('trend', this.props.listsTrends);
+          renderResult = (<div> 열일중 입니다 </div>);
           break;
         default:
           renderResult = (<div> ERROR! </div>);
@@ -160,16 +151,10 @@ export default class Contents extends React.Component {
 }
 
 Contents.propTypes = {
-  listsJPG: React.PropTypes.array.isRequired,
-  listsGIF: React.PropTypes.array.isRequired,
-  listsAVI: React.PropTypes.array.isRequired,
-  subsReadyJPG: React.PropTypes.bool.isRequired,
-  subsReadyGIF: React.PropTypes.bool.isRequired,
-  subsReadyAVI: React.PropTypes.bool.isRequired,
-  type: React.PropTypes.string.isRequired,
+  listsPicks: React.PropTypes.array.isRequired,
+  subsReadyPicks: React.PropTypes.bool.isRequired,
   tabIndex: React.PropTypes.number.isRequired,
-  communityName: React.PropTypes.string.isRequired,
-  postId: React.PropTypes.string.isRequired,
+  pickId: React.PropTypes.string.isRequired,
   devMode: React.PropTypes.bool.isRequired,
   contentsLoadingComplete: React.PropTypes.func.isRequired,
 };

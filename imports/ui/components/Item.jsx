@@ -44,7 +44,8 @@ export default class Item extends React.Component {
     return communityColor[source];
   }
   redirectTo() {
-    browserHistory.push(`/${this.props.type}/`); // Push the current tab to locale history
+    browserHistory.push('/pick/'); // Push the current tab to locale history
+
     this.setState({
       tapped: true,
     });
@@ -60,14 +61,15 @@ export default class Item extends React.Component {
     window.location = url;
   }
   sharingItemOnChange(platform) {
-    const postId = this.props.postId.slice(this.props.postId.indexOf('.') + 1);
+    // const postId = this.props.postId.slice(this.props.postId.indexOf('.') + 1);
+    const pickId = this.props.postId;
 
     if (platform === 'kakao') {
       const content = {
         label: this.props.title,
         webButton: {
-          text: '50min에서 보기',
-          url: `${this.state.appUrl}/${this.props.type}/${this.props.communityName}/${postId}`,
+          text: 'Piccup에서 보기',
+          url: `${this.state.appUrl}/pick/${pickId}`,
         },
       };
       console.log(content);
@@ -79,7 +81,6 @@ export default class Item extends React.Component {
     }
   }
   itemMenu() {
-    
     const RightIconMenu = (
       <IconMenu
         onChange={(event, value) => {this.sharingItemOnChange(value);}}

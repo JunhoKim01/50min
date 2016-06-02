@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { ScrapJPG, ScrapGIF, ScrapAVI } from './Scraps.js';
+import { ScrapJPG, ScrapGIF, ScrapAVI, Picks } from './Scraps.js';
 
 Meteor.publish('scrapJPG',
   (counter, itemId) => {
@@ -34,6 +34,19 @@ Meteor.publish('scrapAVI',
     } else {
       // Find all items for main app
       result = ScrapAVI.find({}, { sort: { createdAt: -1 }, limit: counter });
+    }
+    return result;
+  });
+// Picks
+Meteor.publish('Picks',
+  (counter, itemId) => {
+    let result = null;
+    if (itemId !== null) {
+      // Find one item for brdige
+      result = Picks.find({ itemId }, { limit: 1 });
+    } else {
+      // Find all items for main app
+      result = Picks.find({}, { sort: { createdAt: -1 }, limit: counter });
     }
     return result;
   });
