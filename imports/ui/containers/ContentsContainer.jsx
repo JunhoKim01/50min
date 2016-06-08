@@ -7,7 +7,7 @@ import Contents from '../components/Contents.jsx';
 export default createContainer(({ params }) => {
   const { pickId, pageNumberArr, tabIndex, devMode, contentsLoadingComplete } = params;
   
-  const LOAD_COUNTER = 20;
+  const LOAD_COUNTER = 30;
   const postsCounter = {
     picks: LOAD_COUNTER * pageNumberArr[0],
   };

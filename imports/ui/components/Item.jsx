@@ -44,7 +44,8 @@ export default class Item extends React.Component {
     return communityColor[source];
   }
   redirectTo() {
-    browserHistory.push('/pick/'); // Push the current tab to locale history
+    
+    // browserHistory.push('/pick/'); // Push the current tab to locale history
 
     this.setState({
       tapped: true,

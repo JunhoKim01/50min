@@ -12,7 +12,7 @@ export default class Contents extends React.Component {
     super(props);
     this.state = {
       tabIndex: this.props.tabIndex,
-      pageNumber: [1, 1, 1, 1],
+      // pageNumber: [1, 1, 1, 1],
       // State of the contents page
       // 0 : Loading contents for the first time
       // 1 : No-data

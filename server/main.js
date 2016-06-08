@@ -22,11 +22,11 @@ Meteor.startup(() => {
   // // Start community scraper
   communityScraper.scrapStart(
   'clien',
-  options.clien,
-  (thisOptions, resultArr) => {
-  Meteor.call('saveItems', resultArr);  // Save items
-  Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
-  }
+    options.clien,
+    (thisOptions, resultArr) => {
+      Meteor.call('saveItems', resultArr);  // Save items
+      Meteor.call('updateSnapshot', thisOptions, resultArr);  // Update DB snapshot
+    }
   );
   communityScraper.scrapStart(
     'ruliweb',

@@ -11,6 +11,7 @@ export const renderRoutes = () => (
     <Route path="/" component={App} />
     <Route path="/pick/" component={App} />
     <Route path="/pick/:pickId" component={App} />
+    <Route path="/pick/page/:page" component={App} />
     <Route path="/trend/" component={App} />
     <Route path="/admin" component={AdminPage} />
     <Route path="*" component={AppNotFound} />

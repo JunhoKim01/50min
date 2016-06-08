@@ -21,11 +21,13 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       tabIndex: this.getTabIndex(),  // JPG
-      pageNumber: [1],
+      pageNumber: this.props.params.page ? [+this.props.params.page] : [1],
       devMode: false,
       isBridge: this.getBridgeState(),
       isContentsLoaded: true,
     };
+    console.log(this.props.params.page);
+    console.log(this.state.pageNumber);
     // Kakao init
     Kakao.init('3b876b4179514d9878854e2c1ff1fc64');
   }
@@ -106,6 +108,13 @@ export default class App extends React.Component {
       pageNumber: pageNumberArr,
       isContentsLoaded: false,
     });
+
+    // Save current page to history
+    if (this.state.tabIndex === 0) {
+      browserHistory.push(`/pick/page/${pageNumberArr[0]}`);
+    } else if (this.state.tabIndex === 1) {
+      browserHistory.push(`/trend/page/${pageNumberArr[0]}`);
+    }
   }
   loadMoreRender() {
     let renderResult = null;
